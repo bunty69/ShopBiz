@@ -1,0 +1,40 @@
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+                <ImageSwitcher
+                    android:id="@+id/imageSwitcher1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp" > 
+
+    			</ImageSwitcher>
+
+    			<TextView
+    			    android:id="@+id/textview1"
+    			    android:layout_width="wrap_content"
+    			    android:layout_height="wrap_content"
+    			    android:text="@string/str1" 
+                    android:layout_marginBottom="5dp"
+    			    />
+
+    			<Button
+    			    android:id="@+id/button1"
+    			    android:layout_width="188dip"
+    			    android:layout_height="100dip"
+    			    android:layout_marginBottom="5dp"
+    			    android:text="ADD TO CART"
+                    android:layout_weight="0"
+    			    android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
