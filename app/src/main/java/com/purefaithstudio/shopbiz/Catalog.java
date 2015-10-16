@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import com.shephertz.app42.paas.sdk.android.App42CallBack;
 import com.shephertz.app42.paas.sdk.android.shopping.Catalogue;
 import com.shephertz.app42.paas.sdk.android.shopping.CatalogueService;
-import com.shephertz.app42.paas.sdk.android.shopping.ItemData;
 import com.shephertz.app42.paas.sdk.android.App42API;
 
 import java.io.InputStream;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 
 public class Catalog extends ActionBarActivity {
 	ImageView imgv;
-	ItemData itemData;
 	Bitmap bmp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,6 @@ public class Catalog extends ActionBarActivity {
 		imgv=(ImageView)findViewById(R.id.imageView1);
 		//UserService userService = App42API.buildUserService();
 		//userService.setAdminKey(ADMIN_KEY);
-		itemData = new ItemData();
 
 		imgv.setImageBitmap(bmp);
 	}
