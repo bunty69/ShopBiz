@@ -20,13 +20,13 @@ import java.util.ArrayList;
 public class Catalog extends ActionBarActivity {
 	ImageView imgv;
 	Bitmap bmp;
+	app42Manager apm;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_catalog);
 		imgv=(ImageView)findViewById(R.id.imageView1);
-		//UserService userService = App42API.buildUserService();
-		//userService.setAdminKey(ADMIN_KEY);
+		apm= new app42Manager(this.getApplicationContext());
 
 		imgv.setImageBitmap(bmp);
 	}
