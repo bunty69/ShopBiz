@@ -6,14 +6,17 @@ import android.graphics.BitmapFactory;
 
 import com.shephertz.app42.paas.sdk.android.App42API;
 import com.shephertz.app42.paas.sdk.android.App42CallBack;
+import com.shephertz.app42.paas.sdk.android.App42Response;
 import com.shephertz.app42.paas.sdk.android.shopping.Catalogue;
 import com.shephertz.app42.paas.sdk.android.shopping.CatalogueService;
 import com.shephertz.app42.paas.sdk.android.user.User;
 import com.shephertz.app42.paas.sdk.android.user.UserService;
-
+import com.shephertz.app42.paas.sdk.android.user.User.Profile;
+import com.shephertz.app42.paas.sdk.android.user.User.UserGender;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by harsimran singh on 16-10-2015.
@@ -23,9 +26,6 @@ public class app42Manager {
     final String SECRET_KEY="0a6a0814e88d678c2350a9c25c66815fda35ba437c87c7300aa459f93ed007b1";
     //final String ADMIN_KEY="1d86c02b3c89214f53f3b1f08abc4aca6387b9b2e62d16adbf1fc3baf547435e";
     String catalogueName = "jewellery";
-    String userName="";
-    String pwd="";
-    String emailId="";
     private ArrayList<Catalogue.Category> category;
 
     //objects
@@ -62,24 +62,84 @@ public class app42Manager {
             return false;
     }
 
-    public boolean register(String userName,String pwd,String emailId)
+    public void logout()
     {
-        userService.createUser( userName, pwd, emailId, new App42CallBack() {
+        userService.logout(sessionId,new App42CallBack() {
             public void onSuccess(Object response)
             {
-                user = (User)response;
-                System.out.println("userName is " + user.getUserName());
-                System.out.println("emailId is " + user.getEmail());
+                App42Response app42response = (App42Response)response;
+                System.out.println("response is " + app42response) ;
             }
             public void onException(Exception ex)
             {
-                System.out.println("Exception Message"+ex.getMessage());
+                System.out.println("Exception Message " + ex.getMessage());
+            }
+        });
+    }
+
+    public boolean register(String userName,String pwd,String emailId)
+    {
+        userService.createUser(userName, pwd, emailId, new App42CallBack() {
+            public void onSuccess(Object response) {
+                user = (User) response;
+                System.out.println("userName is " + user.getUserName());
+                System.out.println("emailId is " + user.getEmail());
+            }
+
+            public void onException(Exception ex) {
+                System.out.println("Exception Message" + ex.getMessage());
             }
         });
         if(user!=null)
             return true;
         else
             return false;
+    }
+
+    public void changepass(String userName,String oldPwd,String newPwd)
+    {
+        userService.changeUserPassword(userName, oldPwd, newPwd, new App42CallBack() {
+            public void onSuccess(Object response) {
+                App42Response app42response = (App42Response) response;
+                System.out.println("response is " + app42response);
+            }
+
+            public void onException(Exception ex) {
+                System.out.println("Exception Message" + ex.getMessage());
+            }
+        });
+    }
+
+    public void setProfile(String userName,String pwd,String emailId,Profile userprof) {
+        user = userService.createUser(userName, pwd, emailId);
+        user.setProfile(userprof);
+        //change with user credentials
+       /*Profile profile = user.new Profile();
+        profile.setFirstName("Nick");
+        profile.setLastName("Gill");
+        profile.setSex(UserGender.MALE);
+        Date date=new Date();
+        profile.setDateOfBirth(date);
+        profile.setCity("Houston");
+        profile.setState("Texas");
+        profile.setPincode("74193");
+        profile.setCountry("USA");
+        profile.setMobile("+1-1111-111-111");
+        profile.setHomeLandLine("+1-2222-222-222");
+        profile.setOfficeLandLine("+1-33333-333-333");*/
+        userService.createOrUpdateProfile(user, new App42CallBack() {
+            public void onSuccess(Object response) {
+                User user = (User) response;
+                System.out.println("userName is " + user.getUserName());
+                System.out.println("firstName is " + user.getProfile().getFirstName());
+                System.out.println("city is " + user.getProfile().getCity());
+                System.out.println("country is " + user.getProfile().getCountry());
+            }
+
+            public void onException(Exception ex) {
+                System.out.println("Exception Message" + ex.getMessage());
+            }
+        });
     }
     public void getItems()
     {
