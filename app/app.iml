@@ -94,6 +94,7 @@
     <orderEntry type="library" exported="" name="App42_ANDROID-0.7.0" level="project" />
     <orderEntry type="library" exported="" name="json-org" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-20.0.0" level="project" />
+    <orderEntry type="library" exported="" name="App42_ANDROID_SDK_3.4" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-20.0.0" level="project" />
   </component>
 </module>

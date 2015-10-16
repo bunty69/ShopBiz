@@ -23,4 +23,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:20.0.0'
     compile files('libs/App42_ANDROID-0.7.0.jar')
     compile files('libs/json-org.jar')
+    compile files('libs/App42_ANDROID_SDK_3.4.jar')
 }

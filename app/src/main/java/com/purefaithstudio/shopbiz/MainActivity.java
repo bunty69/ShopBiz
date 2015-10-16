@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -20,21 +22,30 @@ import android.view.OrientationListener;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher.ViewFactory;
 
 public class MainActivity extends ActionBarActivity{
-
 	private ImageSwitcher ims;
 	private Bitmap image[];
 	private int currImage=0;
 	DisplayMetrics metrics;
+	Button next;
 	Thread thread;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		next=(Button)findViewById(R.id.button1);
+		next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent i = new Intent(MainActivity.this,Catalog.class);
+				startActivity(i);
+			}
+		});
 		//display size
 		metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -65,13 +76,13 @@ public class MainActivity extends ActionBarActivity{
 		});
 		thread.start();
 		ims=(ImageSwitcher) findViewById(R.id.imageSwitcher1);
-	/*	ims.setFactory(new ViewFactory() {
+		ims.setFactory(new ViewFactory() {
 			   public View makeView() {
 				      ImageView myView = new ImageView(getApplicationContext());
 				      return myView;
 				   }
 			}
-		);*/
+		);
 		Animation in = AnimationUtils.loadAnimation(this,R.anim.slide_in_right);
 		Animation out = AnimationUtils.loadAnimation(this,R.anim.slide_out_left);
 		ims.setInAnimation(in);
@@ -95,7 +106,7 @@ public class MainActivity extends ActionBarActivity{
 		image[0]=Bitmap.createScaledBitmap(image[0], metrics.widthPixels*2, metrics.heightPixels*2, true);
 		image[1]=Bitmap.createScaledBitmap(image[1], metrics.widthPixels*2, metrics.heightPixels*2, true);
 		image[2]=Bitmap.createScaledBitmap(image[2], metrics.widthPixels*2, metrics.heightPixels*2, true);
-		Log.d("harsim","hg"+image[0].getHeight()+":wg"+image[0].getWidth()+"\n"+"hg"+image[1].getHeight()+":wg"+image[1].getWidth()+"\n"+"hg"+image[2].getHeight()+":wg"+image[2].getWidth());
+		Log.d("harsim", "hg" + image[0].getHeight() + ":wg" + image[0].getWidth() + "\n" + "hg" + image[1].getHeight() + ":wg" + image[1].getWidth() + "\n" + "hg" + image[2].getHeight() + ":wg" + image[2].getWidth());
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,4 +126,5 @@ public class MainActivity extends ActionBarActivity{
 	}
 		return super.onOptionsItemSelected(item);
 	}
+
 }
