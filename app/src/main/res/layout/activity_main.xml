@@ -29,20 +29,17 @@
             android:gravity="center"
             android:orientation="vertical" >
 
-                <ImageSwitcher
-                    android:id="@+id/imageSwitcher1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp" > 
 
-    			</ImageSwitcher>
 
     			<TextView
     			    android:id="@+id/textview1"
-    			    android:layout_width="wrap_content"
+    			    android:layout_width="fill_parent"
     			    android:layout_height="wrap_content"
-    			    android:text="@string/str1" 
+                    android:gravity="center"
+    			    android:text="this is a stub for user login Press below to continue"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
     			    />
 
     			<Button

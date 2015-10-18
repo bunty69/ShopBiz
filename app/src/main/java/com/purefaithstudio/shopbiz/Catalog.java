@@ -57,7 +57,8 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
         Log.d("harsim", "ims done init");
        try {
 
-           apm = new app42Manager(this.getApplicationContext());
+           //apm = new app42Manager(this.getApplicationContext());
+           apm=MainActivity.apm;
            Log.d("harsim", "apm loading");
            // first category a list of categories and items from categories
            apm.loadImage(apm.categories().get(0));
