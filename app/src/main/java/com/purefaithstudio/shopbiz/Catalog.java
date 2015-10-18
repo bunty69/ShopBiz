@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -23,6 +24,7 @@ import android.widget.ViewSwitcher;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -33,15 +35,16 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
     private String[] mNavigationDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private Bitmap image[];
-    private int currImage = 0;
-    int pos;
+    DownloadImageTask dit;
+    Bitmap image[];
+    int currImage=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
         ims = (ImageSwitcher) findViewById(R.id.imageSwitcher1);
+        dit=new DownloadImageTask(ims);
         ims.setFactory(new ViewSwitcher.ViewFactory() {
                            public View makeView() {
                                ImageView myView = new ImageView(getApplicationContext());
@@ -57,11 +60,11 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
         Log.d("harsim", "ims done init");
        try {
 
-           //apm = new app42Manager(this.getApplicationContext());
-           apm=MainActivity.apm;
+           apm = new app42Manager(this.getApplicationContext());
+           //apm=MainActivity.apm;
            Log.d("harsim", "apm loading");
            // first category a list of categories and items from categories
-           apm.loadImage(apm.categories().get(0));
+          // apm.loadImage(apm.categories().get(0));
            Log.d("harsim", "apm loaded");
            //need blocking call else imageList is not set when called below
            Log.d("harsim","image loaded");
@@ -70,9 +73,9 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
            Log.d("harsim","arrays size"+apm.categories().size());
            for (int i = 0; i < apm.categories().size()-1; i++) {
                mNavigationDrawerItemTitles[i] = apm.categories().get(0).getItemList().get(i).getName();
-               drawerItem[i] = new ObjectDrawerItem(apm.getImage(i), apm.categories().get(0).getItemList().get(i).getName());
+               drawerItem[i] = new ObjectDrawerItem(R.drawable.ic_launcher, apm.categories().get(0).getItemList().get(i).getName());
                Log.d("harsim","drawerItem:name"+drawerItem[i].name+":icon res "+drawerItem[i].icon);
-              // drawerItem[i].setImage(apm.categories().get(i).getItemList().get(0).getUrl());
+               drawerItem[i].setImage(apm.categories().get(i).getItemList().get(0).getUrl());
            }
            Log.d("harsim","for looped");
            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -87,8 +90,8 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
                @SuppressWarnings("deprecation")
                public void run() {
                    ims.setImageDrawable(
-                           new BitmapDrawable(currImage == 0 ? image[0] : currImage == 1 ? image[1] : image[2]));
-                   ims.postDelayed(this, 2500);
+                           new BitmapDrawable(currImage==0?image[0]:currImage==1?image[1]:image[2]));
+                 ims.postDelayed(this, 2500);
                    currImage++;
                    if (currImage > 2)
                        currImage = 0;
@@ -126,25 +129,34 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void selectItem(int position) {
-        apm.loadImage(apm.categories().get(position+1));
-        image[0]=apm.getImage(0);
-        try
-        {
-            image[1]=apm.getImage(1);
-        }
-        catch(ArrayIndexOutOfBoundsException AIOBE)
-        {
-            image[1]=image[0];
-        }
-        image[2]=image[0];
+        final int pos=position;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    image[0]=BitmapFactory.decodeStream((InputStream) new URL(apm.categories().get(pos+1).getItemList().get(0).getUrl()).getContent());
+                    image[1]=BitmapFactory.decodeStream((InputStream) new URL(apm.categories().get(pos+1).getItemList().get(1).getUrl()).getContent());
+                    image[2]=image[0];
+                }
+                catch(ArrayIndexOutOfBoundsException e1)
+                {
+                 image[1]=image[0];
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+               // dit.execute(apm.categories().get(position+1).getItemList().get(0).getUrl());
 
         if(position<0)
-            position=0;
+          position=0;
         mDrawerList.setItemChecked(position, true);
         mDrawerList.setSelection(position);
         getActionBar().setTitle(mNavigationDrawerItemTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
 
-        Log.d("harsim", "item selected"+position);
+        Log.d("harsim", "item selected" + position);
     }
 }

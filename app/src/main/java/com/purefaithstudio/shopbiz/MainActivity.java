@@ -45,11 +45,11 @@ public class MainActivity extends ActionBarActivity{
 				startActivity(i);
 			}
 		});
-		tv1.setText("Loading...");
+		/*tv1.setText("Loading...");
 		next.setVisibility(View.INVISIBLE);
 		apm= new app42Manager(this.getApplicationContext());
 		tv1.setText("THis is tub for user login TBI \n Press for catalog below");
-		next.setVisibility(View.VISIBLE);
+		next.setVisibility(View.VISIBLE);*/
 
 	}
 	@Override

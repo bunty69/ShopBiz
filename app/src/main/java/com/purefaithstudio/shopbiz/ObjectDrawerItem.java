@@ -7,11 +7,11 @@ import android.graphics.Bitmap;
  */
 public class ObjectDrawerItem {
 
-        public Bitmap icon;
+        public int icon;
         public String name;
         public String Url;
         // Constructor.
-        public ObjectDrawerItem(Bitmap icon, String name) {
+        public ObjectDrawerItem(int icon, String name) {
 
             this.icon = icon;
             this.name = name;
