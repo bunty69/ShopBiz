@@ -80,8 +80,19 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
            mDrawerList.setAdapter(adapter);
            mDrawerList.setOnItemClickListener(this);
            Log.d("harsim", "navdrawer ready");
-           selectItem(0);
+           selectItem(-1);
            Log.d("harsim", "item selected");
+           ims.postDelayed(new Runnable() {
+               @SuppressWarnings("deprecation")
+               public void run() {
+                   ims.setImageDrawable(
+                           new BitmapDrawable(currImage == 0 ? image[0] : currImage == 1 ? image[1] : image[2]));
+                   ims.postDelayed(this, 2500);
+                   currImage++;
+                   if (currImage > 2)
+                       currImage = 0;
+               }
+           }, 1000);
        }
        catch(Exception e)
        {
@@ -114,24 +125,25 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void selectItem(int position) {
-        image[0]=apm.getImage(position);
-        image[1]=image[0];
+        apm.loadImage(apm.categories().get(position+1));
+        image[0]=apm.getImage(0);
+        try
+        {
+            image[1]=apm.getImage(1);
+        }
+        catch(ArrayIndexOutOfBoundsException AIOBE)
+        {
+            image[1]=image[0];
+        }
         image[2]=image[0];
-        ims.postDelayed(new Runnable() {
-            @SuppressWarnings("deprecation")
-            public void run() {
-                ims.setImageDrawable(
-                        new BitmapDrawable(currImage == 0 ? image[0] : currImage == 1 ? image[1] : image[2]));
-                ims.postDelayed(this, 2000);
-                currImage++;
-                if(currImage>2)
-                    currImage=0;
-            }
-        }, 1000);
 
+        if(position<0)
+            position=0;
         mDrawerList.setItemChecked(position, true);
         mDrawerList.setSelection(position);
         getActionBar().setTitle(mNavigationDrawerItemTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+
+        Log.d("harsim", "item selected"+position);
     }
 }
