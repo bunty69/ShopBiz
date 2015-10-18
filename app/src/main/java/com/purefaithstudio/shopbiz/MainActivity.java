@@ -50,6 +50,7 @@ public class MainActivity extends ActionBarActivity{
 		apm= new app42Manager(this.getApplicationContext());
 		tv1.setText("THis is tub for user login TBI \n Press for catalog below");
 		next.setVisibility(View.VISIBLE);
+
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
