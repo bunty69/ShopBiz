@@ -141,11 +141,12 @@
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">ShopBiz</string>
-    <string name="button1">ADD TO CART</string>
+    <string name="button1">CATALOG</string>
     <string name="hello_world">Hello world!</string>
     <string name="product_image">Product Image</string>
     <string name="str1">The product description goes here</string>
     <string name="title_activity_catalog">Catalog</string>
+    <string name="title_activity_fragement1">fragement1</string>
     <!-- From: file:/C:/Users/harsimran%20singh/StudioProjects/ShopBiz/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">

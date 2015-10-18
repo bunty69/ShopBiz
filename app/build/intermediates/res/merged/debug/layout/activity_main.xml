@@ -1,5 +1,23 @@
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- Framelayout to display Fragments -->
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+    <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -32,10 +50,10 @@
     			    android:layout_width="188dip"
     			    android:layout_height="100dip"
     			    android:layout_marginBottom="5dp"
-    			    android:text="ADD TO CART"
+    			    android:text="@string/button1"
                     android:layout_weight="0"
     			    android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
-<!-- From: file:/C:/Users/harsimran%20singh/StudioProjects/ShopBiz/app/src/main/res/layout/activity_main.xml -->
+</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/harsimran%20singh/StudioProjects/ShopBiz/app/src/main/res/layout/activity_main.xml -->
