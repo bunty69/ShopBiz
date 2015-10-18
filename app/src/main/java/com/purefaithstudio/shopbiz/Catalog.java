@@ -58,24 +58,25 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
        try {
 
            apm = new app42Manager(this.getApplicationContext());
-           Log.d("harsim","apm loading");
-           do{
-           }while(apm.categories()==null);
-           Log.d("harsim","apm loaded");
-           apm.categories().get(0).getName();
+           Log.d("harsim", "apm loading");
+           // first category a list of categories and items from categories
            apm.loadImage(apm.categories().get(0));
+           Log.d("harsim", "apm loaded");
+           //need blocking call else imageList is not set when called below
            Log.d("harsim","image loaded");
-           mNavigationDrawerItemTitles = new String[apm.categories().size()+1];
-           ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[apm.categories().size()+1];
-           Log.d("harsim","arrays sized");
-           for (int i = 0; i > apm.categories().size(); i++) {
-               mNavigationDrawerItemTitles[i] = apm.categories().get(i).getName();
-               drawerItem[i] = new ObjectDrawerItem(apm.getImage(i), apm.categories().get(i).getName());
+           mNavigationDrawerItemTitles = new String[apm.categories().size()-1];
+           ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[apm.categories().size()-1];
+           Log.d("harsim","arrays size"+apm.categories().size());
+           for (int i = 0; i < apm.categories().size()-1; i++) {
+               mNavigationDrawerItemTitles[i] = apm.categories().get(0).getItemList().get(i).getName();
+               drawerItem[i] = new ObjectDrawerItem(apm.getImage(i), apm.categories().get(0).getItemList().get(i).getName());
+               Log.d("harsim","drawerItem:name"+drawerItem[i].name+":icon res "+drawerItem[i].icon);
+              // drawerItem[i].setImage(apm.categories().get(i).getItemList().get(0).getUrl());
            }
            Log.d("harsim","for looped");
            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
            mDrawerList = (ListView) findViewById(R.id.left_drawer);
-           DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
+          DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
            mDrawerList.setAdapter(adapter);
            mDrawerList.setOnItemClickListener(this);
            Log.d("harsim", "navdrawer ready");
@@ -113,33 +114,9 @@ public class Catalog extends ActionBarActivity implements ListView.OnItemClickLi
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void selectItem(int position) {
-      /*  Thread thread = new Thread(new Runnable(){
-            @Override
-            public void run() {
-        try{
-            image[0]= BitmapFactory.decodeStream((InputStream) new URL("http://img.tradeindia.com/fp/1/772/320.jpg").getContent());
-            image[1]=BitmapFactory.decodeStream((InputStream)new URL("http://teja1.kuikr.com/i5/20141001/AD-diamond-bangles-imitation-jewellery-in-low-price-garante-1976906379-1412140338.jpeg").getContent());
-            image[2]=BitmapFactory.decodeStream((InputStream)new URL("http://baggout.tiles.large.s3-ap-southeast-1.amazonaws.com/Craftsvilla-Latest-Designer-Artificial-Jewellery-Green-AD-Locket-Set-Pendants-by-Jaipur-Mart-Jaipur-Mart-ce2aecea-92a3-46a2-ab7b-4d5bf75e50ae.jpg").getContent());
-        }
-        catch(MalformedURLException mue)
-        {
-            mue.printStackTrace();
-        }
-        catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-});
-        thread.start();*/
-        image[0]=apm.getImage(0);
+        image[0]=apm.getImage(position);
         image[1]=image[0];
         image[2]=image[0];
-        Log.d("harsim","image done");
         ims.postDelayed(new Runnable() {
             @SuppressWarnings("deprecation")
             public void run() {

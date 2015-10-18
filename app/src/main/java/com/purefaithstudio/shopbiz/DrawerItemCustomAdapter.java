@@ -38,9 +38,12 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
 
         ObjectDrawerItem folder = data[position];
 
+        imageViewIcon.setImageBitmap(folder.icon);
+       textViewName.setText(folder.name);
 
-        imageViewIcon.setImageResource(R.drawable.ic_launcher);
-        textViewName.setText(folder.name);
+        //if above fails for testing navdrawer setup is correct use this
+        //imageViewIcon.setImageResource(R.drawable.ic_launcher);
+       // textViewName.setText("categories");
 
         return listItem;
     }

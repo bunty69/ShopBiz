@@ -42,6 +42,7 @@ public class app42Manager {
     User user=null;
     Bitmap bmp;
     Context context;
+    boolean block=false;
 
     public app42Manager(Context cnt)
     {
@@ -50,6 +51,9 @@ public class app42Manager {
        // userService = App42API.buildUserService();
         getItems();
         this.context=cnt;
+        //blocks till catalogue loads
+        do{
+        } while (categories()==null);
     }
 
     public boolean authenticate(String userName,String pwd)
@@ -156,6 +160,7 @@ public class app42Manager {
                 catalogue = (Catalogue) response;
                 System.out.println("catalogue name is" + catalogue.getName());
                 categoryList = catalogue.getCategoryList();
+                System.out.println("category" + categoryList.get(0).getName());
                 for (int i = 0; i < catalogue.getCategoryList().size(); i++) {
                     System.out.println("category name is : " + catalogue.getCategoryList().get(i).getName());
 
@@ -188,33 +193,32 @@ public class app42Manager {
     }
 
 
-    public void loadImage(Catalogue.Category catg)
+    public void loadImage(Catalogue.Category cat)
     {
-        final ArrayList<Catalogue.Category.Item> itemList=catg.getItemList();
+    block=true;
+        final ArrayList<Catalogue.Category.Item> itemList = cat.getItemList();
+        itemImage = new ArrayList<Bitmap>();
         Thread th = new Thread(new Runnable() {
             public void run() {
 
                 URL url = null;
                 InputStream content = null;
                 try {
-                    for(int i=0;i<itemList.size();i++) {
-                        url = new URL((itemList.get(i).getUrl()));
-
-                        content = (InputStream) url.getContent();
-                        final Bitmap mIcon1 = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        ;
-                        itemImage.add(i,mIcon1);
+                    for (int i = 0; i < itemList.size(); i++) {
+                        final Bitmap mIcon1 = BitmapFactory.decodeStream((InputStream) new URL(itemList.get(i).getUrl()).getContent());
+                        itemImage.add(mIcon1);
                     }
-
                 } catch (final Exception e) {
                     e.printStackTrace();
-
                 }
 
-
+            block=false;
             }
         });
         th.start();
+
+        do{
+        } while (block);
     }
     public Bitmap getImage(int i)
     {
