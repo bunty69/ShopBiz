@@ -37,8 +37,8 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
         TextView textViewName = (TextView) listItem.findViewById(R.id.textViewName);
 
         ObjectDrawerItem folder = data[position];
-
-        imageViewIcon.setImageBitmap(folder.icon);
+        new DownloadImageTask(imageViewIcon).execute(folder.Url);
+        imageViewIcon.setImageResource(folder.icon);
        textViewName.setText(folder.name);
 
         //if above fails for testing navdrawer setup is correct use this

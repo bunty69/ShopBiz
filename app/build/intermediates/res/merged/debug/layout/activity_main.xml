@@ -1,56 +1,33 @@
-<android.support.v4.widget.DrawerLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!-- Framelayout to display Fragments -->
-    <FrameLayout
-        android:id="@+id/frame_container"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#111"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fillViewport="true" >
+        android:layout_height="match_parent">
+        <!-- Framelayout to display Fragments -->
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical" >
+            />
 
+        <fragment
+            android:id="@+id/main_content"
+            android:name="com.purefaithstudio.shopbiz.NavDrawer"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:layout="@layout/nav_drawer"
+            tools:layout="@layout/nav_drawer" />
 
+    </android.support.v4.widget.DrawerLayout>
 
-    			<TextView
-    			    android:id="@+id/textview1"
-    			    android:layout_width="fill_parent"
-    			    android:layout_height="wrap_content"
-                    android:gravity="center"
-    			    android:text="this is a stub for user login Press below to continue"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-    			    />
-
-    			<Button
-    			    android:id="@+id/button1"
-    			    android:layout_width="188dip"
-    			    android:layout_height="100dip"
-    			    android:layout_marginBottom="5dp"
-    			    android:text="@string/button1"
-                    android:layout_weight="0"
-    			    android:textStyle="bold" />
-
-        </LinearLayout>
-    </ScrollView>
-</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/harsimran%20singh/StudioProjects/ShopBiz/app/src/main/res/layout/activity_main.xml -->
+</LinearLayout><!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/src/main/res/layout/activity_main.xml -->
