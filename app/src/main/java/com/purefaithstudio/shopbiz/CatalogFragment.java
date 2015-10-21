@@ -1,14 +1,15 @@
 package com.purefaithstudio.shopbiz;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,8 +32,8 @@ import java.net.URL;
  * Created by MY System on 10/19/2015.
  */
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class CatalogFragment extends Fragment {
+
+public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickListener {
     private static DrawerLayout mDrawerLayout;
     private static boolean loaded = false;
     private static Thread thread;
@@ -49,7 +50,9 @@ public class CatalogFragment extends Fragment {
     private Context context;
     private RecyclerView recyclerView;
     private RecyclerAdapter mAdapter;
-    String names[] = {"harjas", "harsimran", "jassi"};
+    RecyclerListData data[] = {new RecyclerListData("Harjas", R.drawable.second),
+            new RecyclerListData("Harsimran", R.drawable.third),
+            new RecyclerListData("Jassi", R.drawable.fourth)};
 
     @Nullable
     @Override
@@ -58,15 +61,17 @@ public class CatalogFragment extends Fragment {
         context = getActivity().getApplicationContext();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(rootView.getContext());
-        mAdapter = new RecyclerAdapter(names);
+        mAdapter = new RecyclerAdapter(data);
+        mAdapter.setClickListener(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
-
-        Log.i("harjas", "adapter set"+mAdapter.getItemCount());
+        Log.i("harjas", "adapter set" + mAdapter.getItemCount());
         imageSwicher = (ImageSwitcher) rootView.findViewById(R.id.imageSwitcher1);
         imageSwicher.setFactory(new ViewSwitcher.ViewFactory() {
                                     public View makeView() {
                                         ImageView myView = new ImageView(context);
+                                        myView.setScaleType(ImageView.ScaleType.FIT_XY);
+                                        myView.setAdjustViewBounds(true);
                                         return myView;
                                     }
                                 }
@@ -120,5 +125,27 @@ public class CatalogFragment extends Fragment {
         Catalog.mDrawerLayout.closeDrawers();
 
         Log.d("harsim", "item selected" + position);
+    }
+
+    @Override
+    public void itemClicked(View v, int position) {
+        Intent intent = new Intent(getActivity().getApplicationContext(), ItemFullScreen.class);
+        Bundle b = new Bundle();
+        switch (position) {
+            case 0:
+                b.putString("itemName", data[position].getItemName());
+                b.putInt("itemImage", data[position].getItemImage());
+                break;
+            case 1:
+                b.putString("itemName", data[position].getItemName());
+                b.putInt("itemImage", data[position].getItemImage());
+                break;
+            case 2:
+                b.putString("itemName", data[position].getItemName());
+                b.putInt("itemImage", data[position].getItemImage());
+                break;
+        }
+        intent.putExtras(b);
+        startActivity(intent);
     }
 }

@@ -33,8 +33,9 @@
             android:label="@string/title_activity_catalog" >
         </activity>
         <activity
-            android:name=".fragement1"
-            android:label="@string/title_activity_fragement1" >
+            android:name=".ItemFullScreen"
+            android:label="@string/title_activity_item_full_screen" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".Catalog"/>
         </activity>
     </application>
 

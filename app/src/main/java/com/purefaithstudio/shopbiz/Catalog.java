@@ -1,47 +1,49 @@
 package com.purefaithstudio.shopbiz;
 
 import android.annotation.TargetApi;
-
-
-import android.app.FragmentManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageSwitcher;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ViewSwitcher;
 
-public class Catalog extends ActionBarActivity{
+public class Catalog extends ActionBarActivity {
     private ImageSwitcher ims;
     Bitmap bmp;
     app42Manager apm;
     private String[] mNavigationDrawerItemTitles;
     public static DrawerLayout mDrawerLayout;
     public static ListView mDrawerList;
-    private Bitmap image[]=new Bitmap[3];
+    private Bitmap image[] = new Bitmap[3];
     private int currImage = 0;
     int pos;
     private CatalogFragment fragment;
+    private Toolbar toolbar;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
-        FragmentManager fragmentManager=getFragmentManager();
-        fragment=new CatalogFragment();
-        fragmentManager.beginTransaction().replace(R.id.frame_container,fragment).commit();
+        toolbar = (Toolbar) findViewById(R.id.appbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        NavDrawer navDrawer = (NavDrawer) getSupportFragmentManager().findFragmentById(R.id.nav_drawer_id);
+        if (navDrawer != null) {
+            navDrawer.setUp(R.id.nav_drawer_id, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+
+        }
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        fragment = new CatalogFragment();
+        fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
         /*ims = (ImageSwitcher) findViewById(R.id.imageSwitcher1);
         ims.setFactory(new ViewSwitcher.ViewFactory() {
@@ -88,7 +90,7 @@ public class Catalog extends ActionBarActivity{
             mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        CatalogFragment.selectItem(position);
+                    CatalogFragment.selectItem(position);
 
                 }
             });
