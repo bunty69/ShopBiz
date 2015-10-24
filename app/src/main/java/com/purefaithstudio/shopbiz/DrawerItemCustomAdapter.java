@@ -16,6 +16,7 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
     Context mContext;
     int layoutResourceId;
     ObjectDrawerItem data[] = null;
+    public ObjectDrawerItem folder;
 
     public DrawerItemCustomAdapter(Context mContext, int layoutResourceId, ObjectDrawerItem[] data) {
 
@@ -36,7 +37,7 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
         ImageView imageViewIcon = (ImageView) listItem.findViewById(R.id.imageViewIcon);
         TextView textViewName = (TextView) listItem.findViewById(R.id.textViewName);
 
-        ObjectDrawerItem folder = data[position];
+        folder = data[position];
         new DownloadImageTask(imageViewIcon).execute(folder.Url);
         imageViewIcon.setImageResource(folder.icon);
        textViewName.setText(folder.name);

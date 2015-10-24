@@ -1,37 +1,90 @@
-<RelativeLayout
-    android:layout_height="100dp"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="350dp">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_viewid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
         card_view:cardCornerRadius="4dp">
-<FrameLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
-<ImageView
-    android:id="@+id/item_image"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:adjustViewBounds="true"
-    android:fitsSystemWindows="true"
-    android:src="@drawable/second">
 
-</ImageView>
-    <TextView
-        android:id="@+id/textview_row"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:text="Sample"
-        android:gravity="bottom"
-        android:textColor="#ffffff"
-        android:layout_margin="4dp"
-        android:textSize="30sp"/>
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:maxHeight="150dp"
+                android:maxWidth="100dp"
+                android:src="@drawable/second">
+
+            </ImageView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textview_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="bottom"
+                    android:text="SampleItemName"
+                    android:textColor="#cccc"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textview_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rs.500"
+
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textview_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="32%"
+                    android:textColor="#00E676"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/add_to_cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_launcher" />
+
+                <ImageView
+                    android:id="@+id/whish_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:src="@drawable/ic_launcher" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 </RelativeLayout>
