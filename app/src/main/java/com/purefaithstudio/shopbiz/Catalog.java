@@ -64,7 +64,7 @@ public class Catalog extends ActionBarActivity {
                 mNavigationDrawerItemTitles[i] = apm.categories().get(0).getItemList().get(i).getName();
                 drawerItem[i] = new ObjectDrawerItem(R.drawable.ic_launcher, apm.categories().get(0).getItemList().get(i).getName());
                 Log.d("harsim", "drawerItem:name" + drawerItem[i].name + ":icon res " + drawerItem[i].icon);
-                drawerItem[i].setImage(apm.categories().get(i).getItemList().get(0).getUrl());
+                drawerItem[i].setImage(apm.categories().get(0).getItemList().get(i).getUrl());
             }
             Log.d("harsim", "for looped");
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,10 +75,11 @@ public class Catalog extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     CatalogFragment.selectItem(position);
-
+                    if (position < 0)
+                        position = 0;
+                    getSupportActionBar().setTitle(mNavigationDrawerItemTitles[position]);
                 }
             });
-
 
             Log.d("harsim", "navdrawer ready");
 
@@ -86,6 +87,18 @@ public class Catalog extends ActionBarActivity {
             e.printStackTrace();
         }
     }
+    public void onBackPressed()
+    {
+        if(getSupportActionBar().getTitle().equals("Catalog")) {
+            super.onBackPressed();
+        }
+        else {
+            CatalogFragment.selectItem(-1);
+            getSupportActionBar().setTitle("Catalog");
+        }
+    }
+
+
 
 
     @Override

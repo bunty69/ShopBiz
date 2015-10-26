@@ -8,15 +8,22 @@ import android.util.Log;
 import com.shephertz.app42.paas.sdk.android.App42API;
 import com.shephertz.app42.paas.sdk.android.App42CallBack;
 import com.shephertz.app42.paas.sdk.android.App42Response;
+import com.shephertz.app42.paas.sdk.android.ServiceAPI;
 import com.shephertz.app42.paas.sdk.android.shopping.Catalogue;
 import com.shephertz.app42.paas.sdk.android.shopping.CatalogueService;
+import com.shephertz.app42.paas.sdk.android.storage.Storage;
+import com.shephertz.app42.paas.sdk.android.storage.StorageService;
 import com.shephertz.app42.paas.sdk.android.user.User;
 import com.shephertz.app42.paas.sdk.android.user.User.Profile;
 import com.shephertz.app42.paas.sdk.android.user.UserService;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import com.badlogic.gdx.utils.Json;
 
 /**
  * Created by harsimran singh on 16-10-2015.
@@ -37,10 +44,18 @@ public class app42Manager {
     Bitmap bmp;
     Context context;
     boolean block = false;
+    private JSONObject json;
+    private StorageService sts;
+    private String DBname="CATALOGUE";
+    private String collection="items";
+    private Json parser;
+
+
 
     public app42Manager(Context cnt) {
         App42API.initialize(cnt, APIKEY, SECRET_KEY);
         catalogueService = App42API.buildCatalogueService();
+        sts=App42API.buildStorageService();
         // userService = App42API.buildUserService();
         Log.i("harjas","Getitems calling");
         getItems();
@@ -50,6 +65,7 @@ Log.i("harjas","Getitems called");
         /*do {
         } while (categories() == null);
         Log.i("harjas","Loaded");*/
+        parser=new Json();
     }
 
     public boolean authenticate(String userName, String pwd) {
@@ -214,5 +230,33 @@ public int noOfImagesPerItem(){
 }
     public Bitmap getImage(int i) {
         return itemImage.get(i);
+    }
+
+
+    public void putItemExtra(String ItemId,String URL1,String URL2, String URL3,int stock,int dis) throws JSONException {
+        ItemExtra ie= new ItemExtra(ItemId);
+        ie.setURL(0, URL1);
+        ie.setURL(1,URL2);
+        ie.setURL(2, URL3);
+        ie.setStock(stock);
+        ie.setDiscount(dis);
+        json= new JSONObject();
+        json.put("itemID",ItemId);
+        json.put("extras", parser.toJson(ie));
+        Storage storage= sts.saveOrUpdateDocumentByKeyValue(DBname,collection,"itemId",ItemId,json.toString());
+    }
+
+    public void getItemExtra(String itemID) throws JSONException {
+        json= new JSONObject();
+        Storage storage=sts.findDocumentByKeyValue(DBname, collection,"itemID",itemID);
+        ArrayList<Storage.JSONDocument> jsonDocList = storage.getJsonDocList();
+        for(Storage.JSONDocument jsonDoc : jsonDocList)
+        {
+            System.out.println("objectId is " + jsonDoc.getDocId());
+            json = new JSONObject(jsonDoc.getJsonDoc());
+            System.out.println(json.get("extras"));
+            ItemExtra ie = parser.fromJson(ItemExtra.class, (String) json.get("extras"));
+            System.out.println("stock:"+ie.getStock()+"discount:"+ie.getDiscount()+"\nURL 0:"+ie.getURL(0)+"\n URL 1:"+ie.getURL(1));
+        }
     }
 }

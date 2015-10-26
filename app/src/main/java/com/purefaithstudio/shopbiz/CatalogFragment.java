@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ViewSwitcher;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -43,32 +45,41 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
     private static ListView mDrawerList;
     private static Bitmap[] image = new Bitmap[3];
     private static int currImage = 0;
-    Bitmap bmp;
-    app42Manager apm;
-    int pos;
+    public static Bitmap bmp;
+    int pos=0;
     RecyclerListData data[] = {new RecyclerListData("RS.500", R.drawable.second),
             new RecyclerListData("Rs.600", R.drawable.third),
             new RecyclerListData("RS.700", R.drawable.fourth)};
     private View rootView;
     private Context context;
     private RecyclerView recyclerView;
-    private RecyclerAdapter mAdapter;
+    private static RecyclerAdapter mAdapter;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void selectItem(final int position) {
-
+    final RecyclerAdapter madap=mAdapter;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int pos = position;
-                int size = MainActivity.apm.categories().get(pos + 1).getItemList().size();
+                int pos = position+1;
+                int size = MainActivity.apm.categories().get(pos).getItemList().size();
+                madap.updateList(MainActivity.apm.categories().get(pos).getItemList());
                 for (int i = 0; i < size; ++i) {
                     try {
-                        image[size - 1 - i] = BitmapFactory.decodeStream((InputStream) new URL(MainActivity.apm.categories().get(pos + 1).getItemList().get(size - 1 - i).getUrl()).getContent());
+                        image[size - 1 - i] = BitmapFactory.decodeStream((InputStream) new URL(MainActivity.apm.categories().get(pos).getItemList().get(size - 1 - i).getUrl()).getContent());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
+
+                String Url="http://www.allyoursjewels.com/wp-content/uploads/Dhara-Diamond-Bangles1.jpg";
+                Log.d("harsim", "" + MainActivity.apm.categories().get(1).getItemList().get(0).getItemId());
+          /*      try {
+                    MainActivity.apm.putItemExtra(MainActivity.apm.categories().get(1).getItemList().get(0).getItemId(),Url,Url,Url,10,30);
+                    MainActivity.apm.getItemExtra(MainActivity.apm.categories().get(1).getItemList().get(0).getItemId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
             }
         }).start();
 
@@ -92,7 +103,16 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(rootView.getContext());
         GridLayoutManager gridLayoutManager=new GridLayoutManager(context,2);
-        mAdapter = new RecyclerAdapter(getActivity().getApplicationContext(),data);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(position==0)
+                    return 2;
+                else
+                    return 1;
+            }
+        });
+        mAdapter = new RecyclerAdapter(getActivity().getApplicationContext(),MainActivity.apm.categories().get(pos).getItemList());
         mAdapter.setClickListener(this);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mAdapter);
@@ -102,8 +122,8 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
                                     public View makeView() {
                                         ImageView myView = new ImageView(context);
                                         myView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        myView.setMaxHeight(50);
-                                        myView.setMaxWidth(100);
+                                        myView.setMaxHeight(300);
+                                        myView.setMaxWidth(300);
                                         myView.setAdjustViewBounds(true);
                                         return myView;
                                     }
@@ -124,9 +144,9 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
                 if (currImage > 2)
                     currImage = 0;
             }
-        }, 1000);
+        }, 2000);
 
-
+        selectItem(-1);
         return rootView;
     }
 

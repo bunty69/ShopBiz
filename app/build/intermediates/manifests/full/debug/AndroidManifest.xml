@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="22" />
+        android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -30,11 +30,13 @@
         </activity>
         <activity
             android:name="com.purefaithstudio.shopbiz.Catalog"
-            android:label="@string/title_activity_catalog" >
+            android:label="@string/title_activity_catalog"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.purefaithstudio.shopbiz.ItemFullScreen"
-            android:label="@string/title_activity_item_full_screen" >
+            android:label="@string/title_activity_item_full_screen"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Catalog" />

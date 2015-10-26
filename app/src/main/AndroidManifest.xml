@@ -30,11 +30,13 @@
         </activity>
         <activity
             android:name=".Catalog"
-            android:label="@string/title_activity_catalog" >
+            android:label="@string/title_activity_catalog"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ItemFullScreen"
-            android:label="@string/title_activity_item_full_screen" >
+            android:label="@string/title_activity_item_full_screen"
+            android:screenOrientation="portrait">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".Catalog"/>
         </activity>
     </application>

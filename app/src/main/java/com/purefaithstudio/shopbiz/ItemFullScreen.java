@@ -57,7 +57,7 @@ public class ItemFullScreen extends AppCompatActivity {
         //recycler view setup
         recyclerView = (RecyclerView) findViewById(R.id.list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new RecyclerAdapter(this, recyclerListData);
+        mAdapter = new RecyclerAdapter(this, MainActivity.apm.categories().get(1).getItemList());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
 
