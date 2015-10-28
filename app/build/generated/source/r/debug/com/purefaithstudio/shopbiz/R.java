@@ -2145,10 +2145,11 @@ containing a value of this type.
         public static final int fourth=0x7f02003c;
         public static final int ic_launcher=0x7f02003d;
         public static final int img1=0x7f02003e;
-        public static final int notification_template_icon_bg=0x7f020042;
-        public static final int second=0x7f02003f;
-        public static final int snackbar_background=0x7f020040;
-        public static final int third=0x7f020041;
+        public static final int loading=0x7f02003f;
+        public static final int notification_template_icon_bg=0x7f020043;
+        public static final int second=0x7f020040;
+        public static final int snackbar_background=0x7f020041;
+        public static final int third=0x7f020042;
     }
     public static final class id {
         public static final int action0=0x7f0b0081;

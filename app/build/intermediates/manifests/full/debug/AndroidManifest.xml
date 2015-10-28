@@ -31,8 +31,7 @@
         <activity
             android:name="com.purefaithstudio.shopbiz.Catalog"
             android:label="@string/title_activity_catalog"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.purefaithstudio.shopbiz.ItemFullScreen"
             android:label="@string/title_activity_item_full_screen"

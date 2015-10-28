@@ -1,6 +1,8 @@
 package com.purefaithstudio.shopbiz;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -49,23 +51,20 @@ public class app42Manager {
     private String DBname="CATALOGUE";
     private String collection="items";
     private Json parser;
-
+    public static boolean flag=false;
 
 
     public app42Manager(Context cnt) {
+
         App42API.initialize(cnt, APIKEY, SECRET_KEY);
         catalogueService = App42API.buildCatalogueService();
         sts=App42API.buildStorageService();
-        // userService = App42API.buildUserService();
-        Log.i("harjas","Getitems calling");
+        Log.i("harjas", "Getitems calling");
         getItems();
-Log.i("harjas","Getitems called");
+Log.i("harjas", "Getitems called");
         this.context = cnt;
-        //blocks till catalogue loads
-        /*do {
-        } while (categories() == null);
-        Log.i("harjas","Loaded");*/
         parser=new Json();
+
     }
 
     public boolean authenticate(String userName, String pwd) {
@@ -182,6 +181,11 @@ Log.i("harjas","Getitems called");
                         System.out.println("Price:" + itemList.get(j).getPrice());
                     }
                 }
+                flag=true;
+                Intent intent=new Intent("com.purefaithstudio.shopbiz");
+                intent.setAction("com.purefaithstudio.shopbiz.CUSTOM");
+                context.sendBroadcast(intent);
+                Log.i("harjas", "Broadcast sent");
             }
 
             public void onException(Exception ex) {

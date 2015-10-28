@@ -36,6 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public boolean isHeader(int position) {
         return position == 0;
     }
+
     public RecyclerAdapter(Context context,ArrayList<Catalogue.Category.Item> items) {
         Log.i("harjas", "names");
         this.items = items;
