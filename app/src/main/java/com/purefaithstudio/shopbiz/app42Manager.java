@@ -243,7 +243,12 @@ public int noOfImagesPerItem(){
         json= new JSONObject();
         json.put("itemID",ItemId);
         json.put("extras", parser.toJson(ie));
-        Storage storage= sts.saveOrUpdateDocumentByKeyValue(DBname,collection,"itemId",ItemId,json.toString());
+       try {
+           Storage storage = sts.saveOrUpdateDocumentByKeyValue(DBname, collection, "itemID", ItemId, json.toString());
+       }catch (Exception e)
+       {
+           e.printStackTrace();
+       }
     }
 
     public void getItemExtra(String itemID) throws JSONException {

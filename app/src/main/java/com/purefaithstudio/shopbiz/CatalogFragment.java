@@ -25,6 +25,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ViewSwitcher;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -46,7 +49,7 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
     private static Bitmap[] image = new Bitmap[3];
     private static int currImage = 0;
     public static Bitmap bmp;
-    int pos=0;
+    static int pos=0;
     RecyclerListData data[] = {new RecyclerListData("RS.500", R.drawable.second),
             new RecyclerListData("Rs.600", R.drawable.third),
             new RecyclerListData("RS.700", R.drawable.fourth)};
@@ -57,13 +60,12 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void selectItem(final int position) {
-    final RecyclerAdapter madap=mAdapter;
+        mAdapter.updateList(MainActivity.apm.categories().get(position+1).getItemList());
+        pos = position+1;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int pos = position+1;
                 int size = MainActivity.apm.categories().get(pos).getItemList().size();
-                madap.updateList(MainActivity.apm.categories().get(pos).getItemList());
                 for (int i = 0; i < size; ++i) {
                     try {
                         image[size - 1 - i] = BitmapFactory.decodeStream((InputStream) new URL(MainActivity.apm.categories().get(pos).getItemList().get(size - 1 - i).getUrl()).getContent());
@@ -72,14 +74,7 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
                     }
                 }
 
-                String Url="http://www.allyoursjewels.com/wp-content/uploads/Dhara-Diamond-Bangles1.jpg";
-                Log.d("harsim", "" + MainActivity.apm.categories().get(1).getItemList().get(0).getItemId());
-          /*      try {
-                    MainActivity.apm.putItemExtra(MainActivity.apm.categories().get(1).getItemList().get(0).getItemId(),Url,Url,Url,10,30);
-                    MainActivity.apm.getItemExtra(MainActivity.apm.categories().get(1).getItemList().get(0).getItemId());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
+
             }
         }).start();
 
@@ -154,20 +149,10 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
     public void itemClicked(View v, int position) {
         Intent intent = new Intent(getActivity().getApplicationContext(), ItemFullScreen.class);
         Bundle b = new Bundle();
-        switch (position) {
-            case 0:
-                b.putString("itemName", data[position].getItemName());
-                b.putInt("itemImage", data[position].getItemImage());
-                break;
-            case 1:
-                b.putString("itemName", data[position].getItemName());
-                b.putInt("itemImage", data[position].getItemImage());
-                break;
-            case 2:
-                b.putString("itemName", data[position].getItemName());
-                b.putInt("itemImage", data[position].getItemImage());
-                break;
-        }
+        Log.i("harsim","pos"+pos);
+        b.putInt("category",pos);
+        b.putInt("itemno",position-1);
+        b.putInt("itemImage", data[position].getItemImage());
         intent.putExtras(b);
         startActivity(intent);
     }

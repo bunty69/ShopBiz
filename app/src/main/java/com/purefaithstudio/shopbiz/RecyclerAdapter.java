@@ -30,7 +30,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     private ArrayList<Catalogue.Category.Item> items;
     private final DisplayImageOptions options;
-    public ImageLoader imageLoader;
+    private ImageLoader imageLoader;
     public ClickListener clickListener;
     int currImage=0;
     public boolean isHeader(int position) {
@@ -89,7 +89,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        Log.d("harsim","recycler items size:"+items.size());
+       // Log.d("harsim","recycler items size:"+items.size());
         return items.size()+1;
     }
 
