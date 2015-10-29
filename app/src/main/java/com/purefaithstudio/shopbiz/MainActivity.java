@@ -27,8 +27,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //next=(Button)findViewById(R.id.button1);
-        //tv1=(TextView)findViewById(R.id.textview1);
         fragmentManager = getFragmentManager();
         fragment = new Fragment1();
         fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();

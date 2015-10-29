@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     android:orientation="vertical">
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fillViewport="true">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_margin="16dp"
+            android:hint="UserName" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="password"
+            android:inputType="textPassword"/>
+
+    </android.support.design.widget.TextInputLayout>
 
 
-            <TextView
-                android:id="@+id/textview1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:gravity="center"
-                android:text="this is a stub for user login Press below to continue" />
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="188dip"
+        android:layout_height="50dip"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="188dip"
-                android:layout_height="100dip"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0"
-                android:text="@string/button1"
-                android:textStyle="bold" />
+        android:background="@color/colorAccent"
+        android:text="@string/button1"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
 
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

@@ -42,6 +42,16 @@
     <color name="cardview_light_background">#FFFAFAFA</color>
     <color name="cardview_shadow_end_color">#03000000</color>
     <color name="cardview_shadow_start_color">#37000000</color>
+    <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="colorAccent">#FF5252</color>
+    <color name="colorDivider">#B6B6B6</color>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimaryText">#FFFFFF</color>
+    <color name="colorSecondaryText">#727272</color>
+    <color name="colorText">#BBDEFB</color>
+    <color name="colorlightPrimary">#BBDEFB</color>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
@@ -311,7 +321,7 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="button1">CATALOG</string>
+    <string name="button1">LOGIN</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_open">Open</string>
     <string name="hello_world">Hello world!</string>
@@ -334,7 +344,7 @@
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
@@ -1282,9 +1292,10 @@
     </style>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/src/main/res/values/styles.xml -->
     <eat-comment/>
-    <style name="Mytheme" parent="Theme.AppCompat.Light">
-        <item name="android:textColorPrimary">#fff0</item>
-        <item name="android:textColorSecondary">#00796B</item>
+    <style name="Mytheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
     </style>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>

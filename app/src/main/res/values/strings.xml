@@ -7,7 +7,7 @@
     <string name="str1">The product description goes here</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_open" >Open</string>
-    <string name="button1">CATALOG</string>
+    <string name="button1">LOGIN</string>
     <string name="title_activity_catalog">Catalog</string>
     <string name="product_image">Product Image</string>
     <string name="title_activity_fragement1">fragement1</string>
