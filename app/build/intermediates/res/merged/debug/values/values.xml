@@ -48,9 +48,9 @@
     <color name="colorDivider">#B6B6B6</color>
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorPrimaryText">#FFFFFF</color>
+    <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
-    <color name="colorText">#BBDEFB</color>
+    <color name="colorText">#FFFFFF</color>
     <color name="colorlightPrimary">#BBDEFB</color>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
@@ -78,6 +78,11 @@
     <color name="material_blue_grey_950">#ff21272b</color>
     <color name="material_deep_teal_200">#ff80cbc4</color>
     <color name="material_deep_teal_500">#ff009688</color>
+    <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="opaqueColor">#8003A9F4</color>
+    <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
+    <eat-comment/>
     <color name="primary_dark_material_dark">#ff000000</color>
     <color name="primary_dark_material_light">#ff757575</color>
     <color name="primary_material_dark">#ff212121</color>
@@ -1294,7 +1299,7 @@
     <eat-comment/>
     <style name="Mytheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColor">@color/colorText</item>
-        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
         <item name="android:colorAccent">@color/colorAccent</item>
     </style>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->

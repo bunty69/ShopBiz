@@ -5,34 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ViewSwitcher;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 /**
  * Created by MY System on 10/19/2015.
@@ -40,53 +23,21 @@ import java.net.URL;
 
 
 public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickListener {
-    private static DrawerLayout mDrawerLayout;
-    private static boolean loaded = false;
-    private static Thread thread;
-    private static ImageSwitcher imageSwicher;
-    private static String[] mNavigationDrawerItemTitles;
-    private static ListView mDrawerList;
-    private static Bitmap[] image = new Bitmap[3];
-    private static int currImage = 0;
-    public static Bitmap bmp;
-    static int pos=0;
+    static int pos = 0;
+    private static RecyclerAdapter mAdapter;
     RecyclerListData data[] = {new RecyclerListData("RS.500", R.drawable.second),
             new RecyclerListData("Rs.600", R.drawable.third),
             new RecyclerListData("RS.700", R.drawable.fourth)};
     private View rootView;
     private Context context;
     private RecyclerView recyclerView;
-    private static RecyclerAdapter mAdapter;
+    private int mutedColor;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void selectItem(final int position) {
-        mAdapter.updateList(MainActivity.apm.categories().get(position+1).getItemList());
-        pos = position+1;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int size = MainActivity.apm.categories().get(pos).getItemList().size();
-                for (int i = 0; i < size; ++i) {
-                    try {
-                        image[size - 1 - i] = BitmapFactory.decodeStream((InputStream) new URL(MainActivity.apm.categories().get(pos).getItemList().get(size - 1 - i).getUrl()).getContent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-            }
-        }).start();
-
-
-        // dit.execute(apm.categories().get(position+1).getItemList().get(0).getUrl());
-
-       /* if(position<0)
-            position=0;
-*/
-        //getActivity().getActionBar().setTitle(mNavigationDrawerItemTitles[position]);
+        mAdapter.updateList(MainActivity.apm.categories().get(position + 1).getItemList());
+        pos = position + 1;
         Catalog.mDrawerLayout.closeDrawers();
-
         Log.d("harsim", "item selected" + position);
     }
 
@@ -97,50 +48,21 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
         context = getActivity().getApplicationContext();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(rootView.getContext());
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(context,2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if(position==0)
+                if (position == 0)
                     return 2;
                 else
                     return 1;
             }
         });
-        mAdapter = new RecyclerAdapter(getActivity().getApplicationContext(),MainActivity.apm.categories().get(pos).getItemList());
+        mAdapter = new RecyclerAdapter(getActivity().getApplicationContext(), MainActivity.apm.categories().get(pos).getItemList());
         mAdapter.setClickListener(this);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mAdapter);
         Log.i("harjas", "adapter set" + mAdapter.getItemCount());
-        imageSwicher = (ImageSwitcher) rootView.findViewById(R.id.imageSwitcher1);
-        imageSwicher.setFactory(new ViewSwitcher.ViewFactory() {
-                                    public View makeView() {
-                                        ImageView myView = new ImageView(context);
-                                        myView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        myView.setMaxHeight(300);
-                                        myView.setMaxWidth(300);
-                                        myView.setAdjustViewBounds(true);
-                                        return myView;
-                                    }
-                                }
-        );
-
-        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-        Animation out = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
-        imageSwicher.setInAnimation(in);
-        imageSwicher.setOutAnimation(out);
-        imageSwicher.postDelayed(new Runnable() {
-            @SuppressWarnings("deprecation")
-            public void run() {
-                imageSwicher.setImageDrawable(
-                        new BitmapDrawable(currImage == 0 ? image[0] : currImage == 1 ? image[1] : image[2]));
-                imageSwicher.postDelayed(this, 2500);
-                currImage++;
-                if (currImage > 2)
-                    currImage = 0;
-            }
-        }, 2000);
-
         selectItem(-1);
         return rootView;
     }
@@ -149,11 +71,12 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
     public void itemClicked(View v, int position) {
         Intent intent = new Intent(getActivity().getApplicationContext(), ItemFullScreen.class);
         Bundle b = new Bundle();
-        Log.i("harsim","pos"+pos);
-        b.putInt("category",pos);
-        b.putInt("itemno",position-1);
+        Log.i("harsim", "pos" + pos);
+        b.putInt("category", pos);
+        b.putInt("itemno", position - 1);
         b.putInt("itemImage", data[position].getItemImage());
         intent.putExtras(b);
         startActivity(intent);
     }
+
 }

@@ -10,15 +10,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageSwitcher
-            android:id="@+id/imageSwitcher1"
-            android:layout_width="350dp"
-            android:layout_height="150dp"
-            android:layout_gravity="top|center"
-            android:layout_margin="10dp">
-
-        </ImageSwitcher>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

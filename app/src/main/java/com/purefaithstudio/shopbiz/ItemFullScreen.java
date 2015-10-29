@@ -75,24 +75,6 @@ public class ItemFullScreen extends AppCompatActivity {
          {
              e.printStackTrace();
          }
-     /*   Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String Url="http://www.allyoursjewels.com/wp-content/uploads/Dhara-Diamond-Bangles1.jpg";
-                Log.d("harsim", "" + MainActivity.apm.categories().get(1).getItemList().get(0).getItemId());
-                try {
-                    //MainActivity.apm.putItemExtra(MainActivity.apm.categories().get(1).getItemList().get(0).getItemId(),Url,Url,Url,10,30);
-                     MainActivity.apm.getItemExtra(item.getItemId());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                catch(Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();*/
 
     }
 
