@@ -4,14 +4,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -24,11 +26,12 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -37,11 +40,30 @@
         android:id="@+id/button1"
         android:layout_width="188dip"
         android:layout_height="50dip"
-        android:layout_marginBottom="5dp"
         android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
 
         android:background="@color/colorAccent"
         android:text="@string/button1"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Or"
+        android:textSize="25dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="188dip"
+        android:layout_height="50dip"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+
+        android:background="@color/colorAccent"
+        android:text="@string/signup"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
 

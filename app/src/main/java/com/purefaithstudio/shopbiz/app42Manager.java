@@ -59,6 +59,7 @@ public class app42Manager {
         App42API.initialize(cnt, APIKEY, SECRET_KEY);
         catalogueService = App42API.buildCatalogueService();
         sts=App42API.buildStorageService();
+        userService=App42API.buildUserService();
         Log.i("harjas", "Getitems calling");
         getItems();
 Log.i("harjas", "Getitems called");
@@ -99,6 +100,7 @@ Log.i("harjas", "Getitems called");
     }
 
     public boolean register(String userName, String pwd, String emailId) {
+        Log.i("harjas123","register called");
         userService.createUser(userName, pwd, emailId, new App42CallBack() {
             public void onSuccess(Object response) {
                 user = (User) response;

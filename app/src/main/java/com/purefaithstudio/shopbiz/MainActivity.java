@@ -1,25 +1,23 @@
 package com.purefaithstudio.shopbiz;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
-    Button next;
+public class MainActivity extends AppCompatActivity {
     static app42Manager apm;
+    Button next;
     TextView tv1;
     private Fragment fragment;
-    private FragmentManager fragmentManager;
+
     private Context context;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -27,10 +25,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = new Fragment1();
         fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
-        context=this.getApplicationContext();
+        context = this.getApplicationContext();
         new Thread(new Runnable() {
             @Override
             public void run() {

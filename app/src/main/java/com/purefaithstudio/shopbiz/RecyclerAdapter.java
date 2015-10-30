@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -116,7 +117,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView imageText;
+        LinearLayout upperView;
         TextView textView, price;
         ImageView imageView, imageView2;
         Animation out, in;
@@ -129,7 +130,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 in = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
                 out = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
                 imageView2 = (ImageView) itemView.findViewById(R.id.imageSwitcher1);
-                imageText=(TextView)itemView.findViewById(R.id.image_textlarge);
+                upperView=(LinearLayout)itemView.findViewById(R.id.upper_view);
                 //replace im1 to dynamically passed images
                 dynamicColor(R.drawable.img1, context);
                 imageView2.setAnimation(in);
@@ -158,9 +159,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 @Override
                 public void onGenerated(Palette palette) {
                     int mutedColor = palette.getMutedColor(R.attr.colorPrimary);
-                    Log.i("harjas", String.valueOf(mutedColor));//we need 80% opacity eg: #80ccc where 80 represents opacity
+                    upperView.setBackgroundColor(mutedColor);
+                    upperView.getBackground().setAlpha(150);
                 }
             });
+        }
+
+        private int convert(int n) {
+            return Integer.valueOf(String.valueOf(n),16);
         }
     }
 }

@@ -331,6 +331,7 @@
     <string name="drawer_open">Open</string>
     <string name="hello_world">Hello world!</string>
     <string name="product_image">Product Image</string>
+    <string name="signup">SignUp</string>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>

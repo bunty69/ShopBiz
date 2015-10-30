@@ -12,4 +12,5 @@
     <string name="product_image">Product Image</string>
     <string name="title_activity_fragement1">fragement1</string>
     <string name="title_activity_item_full_screen">ItemFullScreen</string>
+    <string name="signup">SignUp</string>
 </resources>

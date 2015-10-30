@@ -4,23 +4,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 <FrameLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center">
     <ImageView
         android:id="@+id/imageSwitcher1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="top|center"
-        android:layout_margin="10dp"
         android:src="@drawable/img1">
 
     </ImageView>
     <LinearLayout
+        android:id="@+id/upper_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/opaqueColor"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -37,7 +36,7 @@
             android:id="@+id/image_textsmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="25dp"
             android:text="Sample small"
             android:textColor="@color/colorText"
             android:textSize="25sp"/>
