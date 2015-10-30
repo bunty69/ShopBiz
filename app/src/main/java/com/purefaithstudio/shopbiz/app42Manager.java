@@ -52,38 +52,45 @@ public class app42Manager {
     private String collection="items";
     private Json parser;
     public static boolean flag=false;
-
-
+    private authenticationListener aul;
+    private OnSignUpListener onSignUpListener;
     public app42Manager(Context cnt) {
-
         App42API.initialize(cnt, APIKEY, SECRET_KEY);
         catalogueService = App42API.buildCatalogueService();
         sts=App42API.buildStorageService();
         userService=App42API.buildUserService();
         Log.i("harjas", "Getitems calling");
         getItems();
-Log.i("harjas", "Getitems called");
+        Log.i("harjas", "Getitems called");
         this.context = cnt;
         parser=new Json();
 
     }
+    public void setAuthenticationListener(authenticationListener authlis)
+    {
+        this.aul=authlis;
+    }
 
-    public boolean authenticate(String userName, String pwd) {
+    public void setOnSignUpListener(OnSignUpListener onSignUpListener)
+    {
+        this.onSignUpListener=onSignUpListener;
+    }
+
+    public void authenticate(String userName, String pwd) {
         userService.authenticate(userName, pwd, new App42CallBack() {
             public void onSuccess(Object response) {
                 User user = (User) response;
                 System.out.println("userName is " + user.getUserName());
                 System.out.println("sessionId is " + user.getSessionId());
+                aul.onAuthenticationSuccess();
             }
 
             public void onException(Exception ex) {
                 System.out.println("Exception Message : " + ex.getMessage());
+//          aul.onAuthenticationFailure();
             }
         });
-        if (user != null)
-            return true;
-        else
-            return false;
+
     }
 
     public void logout() {

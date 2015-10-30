@@ -2,22 +2,24 @@ package com.purefaithstudio.shopbiz;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     static app42Manager apm;
     Button next;
     TextView tv1;
     private Fragment fragment;
-
+    private FragmentManager fragmentManager;
     private Context context;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -25,16 +27,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragment = new Fragment1();
         fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
         context = this.getApplicationContext();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                apm = new app42Manager(context);
-            }
-        }).start();
+        apm = new app42Manager(context);
 
     }
 
@@ -56,5 +53,13 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    public void onBackPressed(){
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fragmentManager.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
 }

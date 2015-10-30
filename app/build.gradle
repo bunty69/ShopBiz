@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.purefaithstudio.shopbiz"
         minSdkVersion 8
-        targetSdkVersion 21
+        targetSdkVersion 22
     }
 
     buildTypes {

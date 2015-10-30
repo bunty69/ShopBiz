@@ -106,6 +106,7 @@ public class Catalog extends ActionBarActivity {
     public void onBackPressed() {
         if (getSupportActionBar().getTitle().equals("Catalog")) {
             super.onBackPressed();
+            MainActivity.apm.logout();
         } else {
             CatalogFragment.selectItem(-1);
             getSupportActionBar().setTitle("Catalog");
