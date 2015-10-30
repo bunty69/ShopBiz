@@ -87,8 +87,7 @@ public class app42Manager {
 
             public void onException(Exception ex) {
                 System.out.println("Exception Message : " + ex.getMessage());
-//          aul.onAuthenticationFailure();
-            }
+            aul.onAuthenticationFailure();}
         });
 
     }
@@ -106,23 +105,22 @@ public class app42Manager {
         });
     }
 
-    public boolean register(String userName, String pwd, String emailId) {
+    public void register(String userName, String pwd, String emailId) {
         Log.i("harjas123","register called");
         userService.createUser(userName, pwd, emailId, new App42CallBack() {
             public void onSuccess(Object response) {
                 user = (User) response;
                 System.out.println("userName is " + user.getUserName());
                 System.out.println("emailId is " + user.getEmail());
+                onSignUpListener.signUpSuccess();
             }
 
             public void onException(Exception ex) {
                 System.out.println("Exception Message" + ex.getMessage());
+                onSignUpListener.signUpFailure();
             }
         });
-        if (user != null)
-            return true;
-        else
-            return false;
+
     }
 
     public void changepass(String userName, String oldPwd, String newPwd) {
