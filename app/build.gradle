@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.purefaithstudio.shopbiz"
-        minSdkVersion 8
+        minSdkVersion 15
         targetSdkVersion 22
     }
 
@@ -29,5 +29,6 @@ dependencies {
     compile files('libs/json-org.jar')
     compile files('libs/universal-image-loader-1.9.4.jar')
     compile files('libs/App42_ANDROID_SDK_3.4.jar')
+    compile 'com.facebook.android:facebook-android-sdk:4.7.0'
     compile files('libs/gdx-1.5.4.jar')
 }
