@@ -2,7 +2,6 @@ package com.purefaithstudio.shopbiz;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     static app42Manager apm;
     Button next;
     TextView tv1;
@@ -53,13 +52,5 @@ public class MainActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-    public void onBackPressed(){
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            Log.i("MainActivity", "popping backstack");
-            fragmentManager.popBackStack();
-        } else {
-            Log.i("MainActivity", "nothing on backstack, calling super");
-            super.onBackPressed();
-        }
-    }
+
 }

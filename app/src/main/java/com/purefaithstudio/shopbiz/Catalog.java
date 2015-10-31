@@ -59,7 +59,7 @@ public class Catalog extends ActionBarActivity {
 
         }
         registerReceiver(receiver, new IntentFilter("com.purefaithstudio.shopbiz.CUSTOM"));
-        if(app42Manager.flag) loadAfter(contextglobal);
+        if (app42Manager.flag) loadAfter(contextglobal);
         Log.i("harjas", "registered");
     }
 
@@ -103,17 +103,6 @@ public class Catalog extends ActionBarActivity {
         }
     }
 
-    public void onBackPressed() {
-        if (getSupportActionBar().getTitle().equals("Catalog")) {
-            super.onBackPressed();
-            MainActivity.apm.logout();
-        } else {
-            CatalogFragment.selectItem(-1);
-            getSupportActionBar().setTitle("Catalog");
-        }
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -136,6 +125,6 @@ public class Catalog extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       unregisterReceiver(receiver);
+        unregisterReceiver(receiver);
     }
 }

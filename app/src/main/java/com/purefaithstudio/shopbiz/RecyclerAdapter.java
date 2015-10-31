@@ -130,7 +130,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 in = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
                 out = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
                 imageView2 = (ImageView) itemView.findViewById(R.id.imageSwitcher1);
-                upperView=(LinearLayout)itemView.findViewById(R.id.upper_view);
+                upperView = (LinearLayout) itemView.findViewById(R.id.upper_view);
                 //replace im1 to dynamically passed images
                 dynamicColor(R.drawable.img1, context);
                 imageView2.setAnimation(in);
@@ -151,9 +151,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 clickListener.itemClicked(v, position);
             }
         }
+
         //added this to have dynamic color according to imageswitch images..problem is we need transparent colors this
         //methods generates solid colors...try this
-        public void dynamicColor(int imagId,Context context) {
+        public void dynamicColor(int imagId, Context context) {
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), imagId);
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
@@ -166,7 +167,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         private int convert(int n) {
-            return Integer.valueOf(String.valueOf(n),16);
+            return Integer.valueOf(String.valueOf(n), 16);
         }
     }
 }
