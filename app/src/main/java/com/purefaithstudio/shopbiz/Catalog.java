@@ -72,14 +72,14 @@ public class Catalog extends ActionBarActivity {
 
             apm = MainActivity.apm;
 
-            mNavigationDrawerItemTitles = new String[apm.categories().size() - 1];
-            ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[apm.categories().size() - 1];
+            mNavigationDrawerItemTitles = new String[apm.categories().size()];
+            ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[apm.categories().size()];
             Log.d("harsim", "arrays size" + apm.categories().size());
-            for (int i = 0; i < apm.categories().size() - 1; i++) {
-                mNavigationDrawerItemTitles[i] = apm.categories().get(0).getItemList().get(i).getName();
-                drawerItem[i] = new ObjectDrawerItem(R.drawable.ic_launcher, apm.categories().get(0).getItemList().get(i).getName());
+            for (int i = 0; i < apm.categories().size(); i++) {
+                mNavigationDrawerItemTitles[i] = apm.getNameList().getItemList().get(i).getName();
+                drawerItem[i] = new ObjectDrawerItem(R.drawable.ic_launcher, apm.getNameList().getItemList().get(i).getName());
                 Log.d("harsim", "drawerItem:name" + drawerItem[i].name + ":icon res " + drawerItem[i].icon);
-                drawerItem[i].setImage(apm.categories().get(0).getItemList().get(i).getUrl());
+                drawerItem[i].setImage(apm.getNameList().getItemList().get(i).getUrl());
             }
             Log.d("harsim", "for looped");
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

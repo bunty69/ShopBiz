@@ -35,8 +35,8 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void selectItem(final int position) {
-        mAdapter.updateList(MainActivity.apm.categories().get(position + 1).getItemList());
-        pos = position + 1;
+        pos = position;
+        mAdapter.updateList(MainActivity.apm.categories().get(position).getItemList());
         Catalog.mDrawerLayout.closeDrawers();
         Log.d("harsim", "item selected" + position);
     }
@@ -63,7 +63,7 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mAdapter);
         Log.i("harjas", "adapter set" + mAdapter.getItemCount());
-        selectItem(-1);
+        selectItem(0);
         return rootView;
     }
 
@@ -73,7 +73,7 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
         Bundle b = new Bundle();
         Log.i("harsim", "pos" + pos);
         b.putInt("category", pos);
-        b.putInt("itemno", position - 1);
+        b.putInt("itemno", position);
         b.putInt("itemImage", data[position].getItemImage());
         intent.putExtras(b);
         startActivity(intent);

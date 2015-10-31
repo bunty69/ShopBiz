@@ -24,6 +24,8 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by harsimran singh on 16-10-2015.
@@ -45,6 +47,7 @@ public class app42Manager {
     private CatalogueService catalogueService;
     private Catalogue catalogue;
     private ArrayList<Catalogue.Category> categoryList;
+    private Catalogue.Category categoryNameList;
     private JSONObject json;
     private StorageService sts;
     private String DBname = "CATALOGUE";
@@ -52,19 +55,23 @@ public class app42Manager {
     private Json parser;
     private authenticationListener authenticationListener;
     private OnSignUpListener onSignUpListener;
+    private ArrayList<ItemExtra> itemExtras;
 
     public app42Manager(Context cnt) {
         App42API.initialize(cnt, APIKEY, SECRET_KEY);
         catalogueService = App42API.buildCatalogueService();
         sts = App42API.buildStorageService();
         userService = App42API.buildUserService();
-        Log.i("harjas", "Getitems calling");
-        getItems();
-        Log.i("harjas", "Getitems called");
         this.context = cnt;
         parser = new Json();
+        Log.i("harjas", "Getitems calling");
+        itemExtras = new ArrayList<ItemExtra>();
+        loadItemExtra();
+        getItems();
+        Log.i("harjas", "Getitems called");
 
     }
+
 
     public void setAuthenticationListener(authenticationListener authenticationListener) {
         this.authenticationListener = authenticationListener;
@@ -116,7 +123,7 @@ public class app42Manager {
 
             public void onException(Exception ex) {
                 System.out.println("Exception Message" + ex.getMessage());
-                onSignUpListener.signUpFailure();
+                // onSignUpListener.signUpFailure();
             }
         });
 
@@ -174,17 +181,22 @@ public class app42Manager {
                 System.out.println("catalogue name is" + catalogue.getName());
                 categoryList = catalogue.getCategoryList();
                 System.out.println("category" + categoryList.get(0).getName());
-                for (int i = 0; i < catalogue.getCategoryList().size(); i++) {
-                    System.out.println("category name is : " + catalogue.getCategoryList().get(i).getName());
 
-                    itemList = catalogue.getCategoryList().get(i).getItemList();
-                    for (int j = 0; j < itemList.size(); j++) {
-                        System.out.println("Item list Name:" + itemList.get(j).getName());
-                        System.out.println("Item List Id:" + itemList.get(j).getItemId());
-                        System.out.println("Item List  Description:" + itemList.get(j).getDescription());//bug here
-                        System.out.println("ItemList tiny Url:" + itemList.get(j).getTinyUrl());
-                        System.out.println("ItemList url:" + itemList.get(j).getUrl());
-                        System.out.println("Price:" + itemList.get(j).getPrice());
+                for (int i = 0; i < categoryList.size(); i++) {
+                    System.out.println("category name is : " + catalogue.getCategoryList().get(i).getName());
+                    if (categoryList.get(i).getName().equals("categories")) {
+                        categoryNameList = categoryList.get(i);
+                        categoryList.remove(i);
+                    } else {
+                        itemList = categoryList.get(i).getItemList();
+                        for (int j = 0; j < itemList.size(); j++) {
+                            System.out.println("Item list Name:" + itemList.get(j).getName());
+                            System.out.println("Item List Id:" + itemList.get(j).getItemId());
+                            System.out.println("Item List  Description:" + itemList.get(j).getDescription());//bug here
+                            System.out.println("ItemList tiny Url:" + itemList.get(j).getTinyUrl());
+                            System.out.println("ItemList url:" + itemList.get(j).getUrl());
+                            System.out.println("Price:" + itemList.get(j).getPrice());
+                        }
                     }
                 }
                 flag = true;
@@ -201,7 +213,13 @@ public class app42Manager {
     }
 
     public ArrayList<Catalogue.Category> categories() {
-        return categoryList;
+        Collections.sort(categoryList,new customCatComparator());
+       return categoryList;
+    }
+    public Catalogue.Category getNameList()
+    {
+        Collections.sort(categoryNameList.getItemList(),new CustomComparator());
+        return categoryNameList;
     }
 
     public ArrayList<Catalogue.Category.Item> Itemlist(Catalogue.Category cat) {
@@ -262,16 +280,44 @@ public class app42Manager {
         }
     }
 
-    public void getItemExtra(String itemID) throws JSONException {
-        json = new JSONObject();
-        Storage storage = sts.findDocumentByKeyValue(DBname, collection, "itemID", itemID);
-        ArrayList<Storage.JSONDocument> jsonDocList = storage.getJsonDocList();
-        for (Storage.JSONDocument jsonDoc : jsonDocList) {
-            System.out.println("objectId is " + jsonDoc.getDocId());
-            json = new JSONObject(jsonDoc.getJsonDoc());
-            System.out.println(json.get("extras"));
-            ItemExtra ie = parser.fromJson(ItemExtra.class, (String) json.get("extras"));
-            System.out.println("stock:" + ie.getStock() + "discount:" + ie.getDiscount() + "\nURL 0:" + ie.getURL(0) + "\n URL 1:" + ie.getURL(1));
-        }
+    public void loadItemExtra() {
+      try {
+          json = new JSONObject();
+          Storage storage = sts.findAllDocuments(DBname, collection);
+          ArrayList<Storage.JSONDocument> jsonDocList = storage.getJsonDocList();
+          for (Storage.JSONDocument jsonDoc : jsonDocList) {
+              System.out.println("objectId is " + jsonDoc.getDocId());
+              json = new JSONObject(jsonDoc.getJsonDoc());
+              System.out.println(json.get("extras"));
+              ItemExtra itemExtra = parser.fromJson(ItemExtra.class, (String) json.get("extras"));
+              itemExtras.add(itemExtra);
+              System.out.println("stock:" + itemExtra.getStock() + "discount:" + itemExtra.getDiscount() + "\nURL 0:" + itemExtra.getURL(0) + "\n URL 1:" + itemExtra.getURL(1));
+          }
+      }
+      catch (Exception e)
+      {
+          e.printStackTrace();
+      }
+    }
+
+    public ArrayList<ItemExtra> getItemExtras()
+    {
+        return itemExtras;
+    }
+}
+
+class CustomComparator implements Comparator<Catalogue.Category.Item>
+{
+    @Override
+    public int compare(Catalogue.Category.Item item, Catalogue.Category.Item t1) {
+        return item.getName().compareTo(t1.getName());
+    }
+}
+
+class customCatComparator implements Comparator<Catalogue.Category>
+{
+    @Override
+    public int compare(Catalogue.Category category, Catalogue.Category t1) {
+        return category.getName().compareTo(t1.getName());
     }
 }

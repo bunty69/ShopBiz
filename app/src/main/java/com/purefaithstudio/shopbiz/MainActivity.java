@@ -30,7 +30,12 @@ public class MainActivity extends AppCompatActivity {
         fragment = new Fragment1();
         fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
         context = this.getApplicationContext();
-        apm = new app42Manager(context);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                apm = new app42Manager(context);
+            }
+        }).start();
 
     }
 
