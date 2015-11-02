@@ -26,19 +26,17 @@ import org.json.JSONException;
 public class ItemFullScreen extends AppCompatActivity {
 
     private ImageView imageView;
-    private TextView textView;
     private String descriptionText;
+    private TextView textView;
     private int imageId;
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbar;
     private RecyclerView recyclerView;
-    private RecyclerAdapter mAdapter;
+    private ItemAdapter mAdapter;
     private CoordinatorLayout condinator;
     private int mutedColor;
     private Catalogue.Category.Item item;
     private ItemExtra itemExtra;
-    public static ImageLoader imageLoader;
-    private DisplayImageOptions options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +52,18 @@ public class ItemFullScreen extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.header);
      try {
          Bundle bundle = getIntent().getExtras();
-         Log.i("hars", "category" + bundle.getInt("category") + "item" + bundle.getInt("itemno"));
+         Log.i("harsim", "category" + bundle.getInt("category") + "item" + bundle.getInt("itemno"));
          item = MainActivity.apm.categories().get(bundle.getInt("category")).getItemList().get(bundle.getInt("itemno"));
-         imageLoader = ImageLoader.getInstance();//get instance
-         imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));//loads that instance with init congig_default
-         options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_launcher).cacheInMemory(true).cacheOnDisk(true).build();//this is options setting
+         itemExtra= MainActivity.apm.getItemExtra(item.getItemId());
+         Log.i("harsim","itemExtra"+itemExtra.getItemID()+"stock"+itemExtra.getStock());
          imageId = bundle.getInt("itemImage");
-         //show image of item in action bar
-         //imageLoader.displayImage(item.getUrl(), imageView, options);
          collapsingToolbar.setTitle(item.getName());
          dynamicToolbarColor(imageId);
          // collapsingToolbar.setBackgroundColor(getResources().getColor(R.color.appbar));
          //recycler view setup
          recyclerView = (RecyclerView) findViewById(R.id.list);
          LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-         mAdapter = new RecyclerAdapter(this, MainActivity.apm.categories().get(1).getItemList());
+         mAdapter = new ItemAdapter(this, item,itemExtra);
          recyclerView.setLayoutManager(linearLayoutManager);
          recyclerView.setAdapter(mAdapter);
      } catch(Exception e)

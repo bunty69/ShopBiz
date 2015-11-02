@@ -73,8 +73,8 @@ public class CatalogFragment extends Fragment implements RecyclerAdapter.ClickLi
         Bundle b = new Bundle();
         Log.i("harsim", "pos" + pos);
         b.putInt("category", pos);
-        b.putInt("itemno", position);
-        b.putInt("itemImage", data[position].getItemImage());
+        b.putInt("itemno", position>0?position-1:0);
+        b.putInt("itemImage", data[0].getItemImage());
         intent.putExtras(b);
         startActivity(intent);
     }

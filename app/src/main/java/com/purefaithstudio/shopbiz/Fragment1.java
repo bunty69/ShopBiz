@@ -99,6 +99,9 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
         rootView = inflater.inflate(R.layout.fragment1, container, false);
         userEditText = (EditText) rootView.findViewById(R.id.username);
         passWordEditText = (EditText) rootView.findViewById(R.id.password);
+        //testing putposes
+        userEditText.setText("chanu123123");
+        passWordEditText.setText("singh123123");
         loginButton = (Button) rootView.findViewById(R.id.button1);
         signupButton = (Button) rootView.findViewById(R.id.button2);
         loginButtonFacebook = (LoginButton) rootView.findViewById(R.id.login_button_facebook);

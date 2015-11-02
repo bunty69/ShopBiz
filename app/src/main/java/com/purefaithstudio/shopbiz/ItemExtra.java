@@ -36,4 +36,5 @@ public class ItemExtra {
     }
     public void setDiscount(int dis){this.discount=dis;}
     public int getDiscount(){return discount;}
+    public String getItemID(){return  itemID;}
 }
