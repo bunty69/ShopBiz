@@ -213,7 +213,7 @@ public class app42Manager {
     }
 
     public ArrayList<Catalogue.Category> categories() {
-        Collections.sort(categoryList,new customCatComparator());
+        Collections.sort(categoryList, new customCatComparator());
        return categoryList;
     }
     public Catalogue.Category getNameList()
@@ -302,7 +302,16 @@ public class app42Manager {
 
     public ArrayList<ItemExtra> getItemExtras()
     {
-        return itemExtras;
+            return itemExtras;
+    }
+    public ItemExtra getItemExtra(String itemID)
+    {
+        for(ItemExtra itemExtra:itemExtras)
+        {
+            if(itemExtra.getItemID().equals(itemID))
+            return itemExtra;
+        }
+        return new ItemExtra(itemID);
     }
 }
 
