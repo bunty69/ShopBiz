@@ -49,7 +49,7 @@ public class app42Manager {
     private ArrayList<Catalogue.Category> categoryList;
     private Catalogue.Category categoryNameList;
     private JSONObject json;
-    private StorageService sts;
+    private StorageService storageService;
     private String DBname = "CATALOGUE";
     private String collection = "items";
     private Json parser;
@@ -60,7 +60,7 @@ public class app42Manager {
     public app42Manager(Context cnt) {
         App42API.initialize(cnt, APIKEY, SECRET_KEY);
         catalogueService = App42API.buildCatalogueService();
-        sts = App42API.buildStorageService();
+        storageService = App42API.buildStorageService();
         userService = App42API.buildUserService();
         this.context = cnt;
         parser = new Json();
@@ -274,7 +274,7 @@ public class app42Manager {
         json.put("itemID", ItemId);
         json.put("extras", parser.toJson(ie));
         try {
-            Storage storage = sts.saveOrUpdateDocumentByKeyValue(DBname, collection, "itemID", ItemId, json.toString());
+            Storage storage = storageService.saveOrUpdateDocumentByKeyValue(DBname, collection, "itemID", ItemId, json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -283,7 +283,7 @@ public class app42Manager {
     public void loadItemExtra() {
       try {
           json = new JSONObject();
-          Storage storage = sts.findAllDocuments(DBname, collection);
+          Storage storage = storageService.findAllDocuments(DBname, collection);
           ArrayList<Storage.JSONDocument> jsonDocList = storage.getJsonDocList();
           for (Storage.JSONDocument jsonDoc : jsonDocList) {
               System.out.println("objectId is " + jsonDoc.getDocId());

@@ -39,10 +39,12 @@ public class Catalog extends ActionBarActivity {
         public void onReceive(Context context, Intent intent) {
             Log.i("harjas", "onRecieve");
             loadAfter(context);
+            waitFragment.dismiss();
         }
     };
     private Toolbar toolbar;
     private boolean flag = false;
+    private WaitFragment waitFragment;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -61,6 +63,9 @@ public class Catalog extends ActionBarActivity {
         registerReceiver(receiver, new IntentFilter("com.purefaithstudio.shopbiz.CUSTOM"));
         if (app42Manager.flag) loadAfter(contextglobal);
         Log.i("harjas", "registered");
+        //waiting spinner
+        waitFragment=new WaitFragment();
+        waitFragment.show(getSupportFragmentManager(),"Tag3");
     }
 
     //called when apm completes it loading and content is ready

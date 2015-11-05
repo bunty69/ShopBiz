@@ -9,18 +9,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.shephertz.app42.paas.sdk.android.shopping.Catalogue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by MY System on 10/20/2015.
@@ -29,7 +31,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
     private final DisplayImageOptions options;
+    private final HashMap<String, String> url_maps;
     public ClickListener clickListener;
+    public ArrayList<TextSliderView> textSliderViews;
     int currImage = 0;
     private ArrayList<Catalogue.Category.Item> items;
     private ImageLoader imageLoader;
@@ -40,6 +44,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         imageLoader = ImageLoader.getInstance();//get instance
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));//loads that instance with init congig_default
         options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_launcher).cacheInMemory(true).cacheOnDisk(true).build();//this is options setting
+        //hashmap example(create a category of offers and get url of images from there and add it to hashmap)
+        url_maps = new HashMap<String, String>();
+        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
+        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
+        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
+        url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
+        textSliderViews=new ArrayList<>();
+        for (String name : url_maps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(context);
+            textSliderView.description(name).image(url_maps.get(name)).setScaleType(BaseSliderView.ScaleType.Fit);
+            if(textSliderView==null) Log.i("Null","Null");
+            textSliderViews.add(textSliderView);
+        }
     }
 
     public boolean isHeader(int position) {
@@ -62,18 +79,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(final RecyclerAdapter.ViewHolder holder, int position) {
         if (position == 0) {
             final String uri = items.get(0).getUrl();
-            imageLoader.displayImage(uri, holder.imageView2, options);
-          /*  holder.imageView2.postDelayed(new Runnable() {
-                @SuppressWarnings("deprecation")
-                public void run() {
-                            //String URI=(currImage == 0 ? image[0] : currImage == 1 ? image[1] : image[2]);
-                    imageLoader.displayImage(uri, holder.imageView2, options);
-                    holder.imageView2.postDelayed(this, 2500);
-                    currImage++;
-                    if (currImage > 2)
-                        currImage = 0;
-                }
-            }, 2000);*/
+            for (TextSliderView textSliderView : textSliderViews) {
+                holder.sliderLayout.addSlider(textSliderView);
+            }
 
         } else {
             String uri = items.get(position - 1).getUrl();
@@ -119,21 +127,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         LinearLayout upperView;
         TextView textView, price;
-        ImageView imageView, imageView2;
-        Animation out, in;
-
+        ImageView imageView;
+        SliderLayout sliderLayout;
 
         public ViewHolder(View itemView, int viewType, Context context) {
             super(itemView);
             if (viewType == 0) {
-
-                in = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                out = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
-                imageView2 = (ImageView) itemView.findViewById(R.id.imageSwitcher1);
-                upperView = (LinearLayout) itemView.findViewById(R.id.upper_view);
+                sliderLayout = (SliderLayout) itemView.findViewById(R.id.slider);
+                sliderLayout.setDuration(1000);
                 //replace im1 to dynamically passed images
-                dynamicColor(R.drawable.img1, context);
-                imageView2.setAnimation(in);
+               // dynamicColor(R.drawable.img1, context);
+
                 itemView.setOnClickListener(this);
             } else {
                 textView = (TextView) itemView.findViewById(R.id.textview_name);

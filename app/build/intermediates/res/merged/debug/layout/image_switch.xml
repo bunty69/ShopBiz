@@ -1,48 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center">
-    <ImageView
-        android:id="@+id/imageSwitcher1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top|center"
-        android:src="@drawable/img1">
+    tools:context="com.purefaithstudio.shopbiz.Catalog">
 
-    </ImageView>
-    <LinearLayout
-        android:id="@+id/upper_view"
+
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
         android:layout_width="match_parent"
+        android:layout_height="200dp"
+        custom:pager_animation="DepthPage" />
+
+    <com.daimajia.slider.library.Indicators.PagerIndicator
+        android:id="@+id/custom_indicator"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="bottom|center">
-        <TextView
-            android:id="@+id/image_textlarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Sample"
-            android:textColor="@color/colorText"
-            android:textSize="50sp"/>
-        <TextView
-            android:id="@+id/image_textsmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:text="Sample small"
-            android:textColor="@color/colorText"
-            android:textSize="25sp"/>
-    </LinearLayout>
+        android:gravity="center" />
 
-</FrameLayout>
-
-
-</LinearLayout><!-- From: file:/C:/Users/harsimran%20singh/StudioProjects/ShopBiz/app/src/main/res/layout/image_switch.xml -->
+</RelativeLayout><!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/src/main/res/layout/image_switch.xml -->

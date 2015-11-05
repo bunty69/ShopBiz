@@ -33,7 +33,6 @@ import com.facebook.login.widget.LoginButton;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
 interface authenticationListener {
     public void onAuthenticationSuccess();
 
@@ -67,7 +66,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
     private AccessToken access;
     private AccessTokenSource accesstokensource;
     private boolean loggedIn;
-
     public static void printHashKey(Context pContext) {
         try {
             PackageManager packageManager = pContext.getPackageManager();
@@ -104,8 +102,8 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
         loginButtonFacebook = (LoginButton) rootView.findViewById(R.id.login_button_facebook);
         loginButtonFacebook.setReadPermissions(Arrays.asList("public_profile", "email"));
         loginButtonFacebook.setFragment(this);
-        loggedIn=checkLoginFacebook();
-        if(loggedIn) startUserHomeScreen();
+        loggedIn = checkLoginFacebook();
+        if (loggedIn) startUserHomeScreen();
         loginButton.setOnClickListener(this);
         signupButton.setOnClickListener(this);
         loginButtonFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -137,10 +135,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
     }
 
     private boolean checkLoginFacebook() {
-        boolean loggedIn=false;
-        if(AccessToken.getCurrentAccessToken()!=null)
-            loggedIn=true;
-    return loggedIn;
+        boolean loggedIn = false;
+        if (AccessToken.getCurrentAccessToken() != null)
+            loggedIn = true;
+        return loggedIn;
     }
 
     private void startUserHomeScreen() {
