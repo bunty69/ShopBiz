@@ -50,11 +50,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
         url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-        textSliderViews=new ArrayList<>();
+        textSliderViews = new ArrayList<>();
         for (String name : url_maps.keySet()) {
             TextSliderView textSliderView = new TextSliderView(context);
             textSliderView.description(name).image(url_maps.get(name)).setScaleType(BaseSliderView.ScaleType.Fit);
-            if(textSliderView==null) Log.i("Null","Null");
+            if (textSliderView == null) Log.i("Null", "Null");
             textSliderViews.add(textSliderView);
         }
     }
@@ -79,6 +79,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(final RecyclerAdapter.ViewHolder holder, int position) {
         if (position == 0) {
             final String uri = items.get(0).getUrl();
+            holder.sliderLayout.removeAllSliders();
             for (TextSliderView textSliderView : textSliderViews) {
                 holder.sliderLayout.addSlider(textSliderView);
             }
@@ -134,9 +135,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             super(itemView);
             if (viewType == 0) {
                 sliderLayout = (SliderLayout) itemView.findViewById(R.id.slider);
-                sliderLayout.setDuration(1000);
+                sliderLayout.setDuration(3000);
                 //replace im1 to dynamically passed images
-               // dynamicColor(R.drawable.img1, context);
+                // dynamicColor(R.drawable.img1, context);
 
                 itemView.setOnClickListener(this);
             } else {

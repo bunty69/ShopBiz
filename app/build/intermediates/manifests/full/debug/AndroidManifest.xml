@@ -49,6 +49,15 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.purefaithstudio.shopbiz.UserProfile"
+            android:label="@string/title_activity_user_profile"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Catalog" />
+        </activity>
     </application>
 
 </manifest>

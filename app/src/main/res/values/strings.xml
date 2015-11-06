@@ -14,4 +14,5 @@
     <string name="title_activity_item_full_screen">ItemFullScreen</string>
     <string name="signup">SignUp</string>
     <string name="facebook_app_id">434000343474286</string>
+    <string name="title_activity_user_profile">UserProfile</string>
 </resources>

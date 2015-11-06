@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:2:1-54:12
+ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:2:1-63:12
 	package
 		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:3:5-42
 		INJECTED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml
@@ -57,7 +57,7 @@ ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\Android
 	android:name
 		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:14:22-77
 application
-ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:16:5-52:19
+ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:16:5-61:19
 MERGED from [com.android.support:support-v4:22.2.1] C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:22.2.0] C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:22.2.1] C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\AndroidManifest.xml:22:5-20
@@ -98,7 +98,7 @@ ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\Android
 	android:name
 		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:28:27-74
 activity#com.purefaithstudio.shopbiz.Catalog
-ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:31:9-34:61
+ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:31:9-34:52
 	android:screenOrientation
 		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:34:13-49
 	android:label
@@ -135,3 +135,11 @@ ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\Android
 		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:51:13-52
 	android:name
 		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:50:13-58
+activity#com.purefaithstudio.shopbiz.UserProfile
+ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:53:9-60:20
+	android:label
+		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:55:13-64
+	android:theme
+		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:56:13-44
+	android:name
+		ADDED from C:\Users\MY System\AndroidStudioProjects\ShopBiz\app\src\main\AndroidManifest.xml:54:13-40

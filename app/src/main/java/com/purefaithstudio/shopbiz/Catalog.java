@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ImageSwitcher;
 import android.widget.ListView;
 
+import com.facebook.Profile;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class Catalog extends ActionBarActivity {
@@ -34,17 +35,20 @@ public class Catalog extends ActionBarActivity {
     private Bitmap image[] = new Bitmap[3];
     private int currImage = 0;
     private CatalogFragment fragment;
+    private Toolbar toolbar;
+    private boolean flag = false;
+    private WaitFragment waitFragment;
     public BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i("harjas", "onRecieve");
             loadAfter(context);
-            waitFragment.dismiss();
+            if (waitFragment != null)
+                waitFragment.dismiss();//problem here wait
         }
     };
-    private Toolbar toolbar;
-    private boolean flag = false;
-    private WaitFragment waitFragment;
+    private String userName = "default";
+    private byte[] bytes;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -55,18 +59,26 @@ public class Catalog extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //receive username from fragment1 not from savedfile bcoz menu requires speed
+        userName = getIntent().getStringExtra("username");
+        Log.i("DebugHarjas", "Here");
         NavDrawer navDrawer = (NavDrawer) getSupportFragmentManager().findFragmentById(R.id.nav_drawer_id);
         if (navDrawer != null) {
             navDrawer.setUp(R.id.nav_drawer_id, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
         }
         registerReceiver(receiver, new IntentFilter("com.purefaithstudio.shopbiz.CUSTOM"));
-        if (app42Manager.flag) loadAfter(contextglobal);
+        if (app42Manager.flag)
+            loadAfter(contextglobal);
         Log.i("harjas", "registered");
         //waiting spinner
-        waitFragment=new WaitFragment();
-        waitFragment.show(getSupportFragmentManager(),"Tag3");
+        if (!app42Manager.flag) {
+            waitFragment = new WaitFragment();
+            waitFragment.show(getSupportFragmentManager(), "Tag3");
+        }
+
     }
+
 
     //called when apm completes it loading and content is ready
     private void loadAfter(Context conext) {
@@ -112,6 +124,13 @@ public class Catalog extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.catalog, menu);
+        MenuItem menuItem = menu.findItem(R.id.user_profile);
+        Log.i("DebugHarjas", "Here2");
+        if (userName == null) {
+            Profile.fetchProfileForCurrentAccessToken();
+            userName = Profile.getCurrentProfile().getName();
+        }
+        menuItem.setTitle(userName);
         return true;
     }
 
@@ -121,7 +140,9 @@ public class Catalog extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.user_profile) {
+            Intent intent = new Intent(Catalog.this, UserProfile.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -130,6 +151,8 @@ public class Catalog extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (waitFragment != null)
+            waitFragment.dismiss();
         unregisterReceiver(receiver);
     }
 }

@@ -276,6 +276,11 @@
     <dimen name="fab_border_width">0.5dp</dimen>
     <dimen name="fab_content_size">24dp</dimen>
     <dimen name="fab_elevation">8dp</dimen>
+    <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="fab_margin">16dp</dimen>
+    <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/res/values/values.xml -->
+    <eat-comment/>
     <dimen name="fab_size_mini">40dp</dimen>
     <dimen name="fab_size_normal">56dp</dimen>
     <dimen name="fab_translation_z_pressed">6dp</dimen>
@@ -409,6 +414,7 @@
     <string name="title_activity_catalog">Catalog</string>
     <string name="title_activity_fragement1">fragement1</string>
     <string name="title_activity_item_full_screen">ItemFullScreen</string>
+    <string name="title_activity_user_profile">UserProfile</string>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
@@ -482,6 +488,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
     <!-- From: file:/C:/Users/MY%20System/AndroidStudioProjects/ShopBiz/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
