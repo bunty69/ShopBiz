@@ -58,6 +58,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Catalog" />
         </activity>
+        <activity
+            android:name=".CartActivity"
+            android:label="@string/title_cart"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Catalog" />
+        </activity>
     </application>
 
 </manifest>
