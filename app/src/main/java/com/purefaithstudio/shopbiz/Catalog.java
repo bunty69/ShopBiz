@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ImageSwitcher;
 import android.widget.ListView;
 
+import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -126,7 +127,7 @@ public class Catalog extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.catalog, menu);
         MenuItem menuItem = menu.findItem(R.id.user_profile);
         Log.i("DebugHarjas", "Here2");
-        if (userName == null) {
+        if (userName==null) {
             Profile.fetchProfileForCurrentAccessToken();
             userName = Profile.getCurrentProfile().getName();
         }
@@ -142,6 +143,12 @@ public class Catalog extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.user_profile) {
             Intent intent = new Intent(Catalog.this, UserProfile.class);
+            startActivity(intent);
+            return true;
+        }
+        if(id == R.id.cart)
+        {
+            Intent intent = new Intent(Catalog.this,CartActivity.class);
             startActivity(intent);
             return true;
         }
