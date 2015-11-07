@@ -31,7 +31,7 @@
         <activity
             android:name=".Catalog"
             android:label="@string/title_activity_catalog"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ItemFullScreen"
@@ -54,14 +54,6 @@
         <activity
             android:name=".UserProfile"
             android:label="@string/title_activity_user_profile"
-            android:theme="@style/AppTheme" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Catalog" />
-        </activity>
-        <activity
-            android:name=".CartActivity"
-            android:label="@string/title_cart"
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -7,6 +7,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -27,12 +31,21 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+
 interface authenticationListener {
     public void onAuthenticationSuccess();
 
@@ -66,6 +79,8 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
     private AccessToken access;
     private AccessTokenSource accesstokensource;
     private boolean loggedIn;
+    private String usernameProfile;
+
     public static void printHashKey(Context pContext) {
         try {
             PackageManager packageManager = pContext.getPackageManager();
@@ -106,7 +121,17 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
         loginButtonFacebook.setReadPermissions(Arrays.asList("public_profile", "email"));
         loginButtonFacebook.setFragment(this);
         loggedIn = checkLoginFacebook();
-        if (loggedIn) startUserHomeScreen();
+        if (loggedIn) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //fetchSetUserData();
+                    Log.i("userdata", "fetched");
+                    startUserHomeScreen();
+                    getActivity().finish();
+                }
+            }).start();
+        }
         loginButton.setOnClickListener(this);
         signupButton.setOnClickListener(this);
         loginButtonFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -114,11 +139,13 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
             public void onSuccess(LoginResult loginResult) {
                 access = loginResult.getAccessToken();
                 try {
-                    Profile.fetchProfileForCurrentAccessToken();
-                    //use this to fetch data of user
-                    Profile profile = Profile.getCurrentProfile();
-                    String username = profile.getFirstName();
-                    startUserHomeScreen();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            fetchSetUserData();
+                            startUserHomeScreen();
+                        }
+                    }).start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -146,6 +173,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
 
     private void startUserHomeScreen() {
         Intent intent = new Intent(rootView.getContext(), Catalog.class);
+        intent.putExtra("username", usernameProfile);
         startActivity(intent);
     }
 
@@ -175,7 +203,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
         if (!userName.equals("") && !passWord.equals(""))
             MainActivity.apm.authenticate(userName, passWord);
         else if (userName != "")
-            Log.i("harsim", "username can't be empty");
+            Log.i("harsim", "usernameProfile can't be empty");
         else
             Log.i("harsim", "password can't be empty");
     }
@@ -184,7 +212,59 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
     public void onAuthenticationSuccess() {
         Log.i("harsim", "authsuccess");
         waitFragment.dismiss();
+        fetchSetUserData();
         startUserHomeScreen();
+        getActivity().finish();
+    }
+
+    private void fetchSetUserData() {
+        Profile.fetchProfileForCurrentAccessToken();
+        Profile profile = Profile.getCurrentProfile();
+        Uri profilePictureUri = profile.getProfilePictureUri(50, 50);
+        URL url;
+        Bitmap bitmap = ((BitmapDrawable) (getResources().getDrawable(R.drawable.ic_launcher))).getBitmap();
+        try {
+            url = new URL(profilePictureUri.toString());
+            Log.i("Uri", url.toString());
+            bitmap = BitmapFactory.decodeStream(url.openStream());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //coverting bitmap to byte array
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
+        usernameProfile = profile.getName();
+        byte bytes[] = byteArrayOutputStream.toByteArray();
+        UserSaveData usersave = new UserSaveData(usernameProfile, bytes);
+        saveUserData(usersave);
+
+    }
+
+    private void saveUserData(UserSaveData usersave) {
+        final String FILE_NAME = "USER_DATA.ser";
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objectOuttputStream = null;
+        try {
+            fileOutputStream = getActivity().getApplicationContext().openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            objectOuttputStream = new ObjectOutputStream(fileOutputStream);
+            objectOuttputStream.writeObject(usersave);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                objectOuttputStream.close();
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
     @Override

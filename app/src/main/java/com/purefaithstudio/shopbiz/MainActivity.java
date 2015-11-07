@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 apm = new app42Manager(context);
-                apm.initItems();
+                //apm.initItems();
             }
         }).start();
     }
