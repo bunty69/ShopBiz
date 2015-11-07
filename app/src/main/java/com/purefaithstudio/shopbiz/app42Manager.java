@@ -92,7 +92,11 @@ public class app42Manager {
 
             public void onException(Exception ex) {
                 System.out.println("Exception Message : " + ex.getMessage());
-                authenticationListener.onAuthenticationFailure();
+                try {
+                    authenticationListener.onAuthenticationFailure();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -214,11 +218,11 @@ public class app42Manager {
 
     public ArrayList<Catalogue.Category> categories() {
         Collections.sort(categoryList, new customCatComparator());
-       return categoryList;
+        return categoryList;
     }
-    public Catalogue.Category getNameList()
-    {
-        Collections.sort(categoryNameList.getItemList(),new CustomComparator());
+
+    public Catalogue.Category getNameList() {
+        Collections.sort(categoryNameList.getItemList(), new CustomComparator());
         return categoryNameList;
     }
 
@@ -281,50 +285,44 @@ public class app42Manager {
     }
 
     public void loadItemExtra() {
-      try {
-          json = new JSONObject();
-          Storage storage = storageService.findAllDocuments(DBname, collection);
-          ArrayList<Storage.JSONDocument> jsonDocList = storage.getJsonDocList();
-          for (Storage.JSONDocument jsonDoc : jsonDocList) {
-              System.out.println("objectId is " + jsonDoc.getDocId());
-              json = new JSONObject(jsonDoc.getJsonDoc());
-              System.out.println(json.get("extras"));
-              ItemExtra itemExtra = parser.fromJson(ItemExtra.class, (String) json.get("extras"));
-              itemExtras.add(itemExtra);
-              System.out.println("stock:" + itemExtra.getStock() + "discount:" + itemExtra.getDiscount() + "\nURL 0:" + itemExtra.getURL(0) + "\n URL 1:" + itemExtra.getURL(1));
-          }
-      }
-      catch (Exception e)
-      {
-          e.printStackTrace();
-      }
+        try {
+            json = new JSONObject();
+            Storage storage = storageService.findAllDocuments(DBname, collection);
+            ArrayList<Storage.JSONDocument> jsonDocList = storage.getJsonDocList();
+            for (Storage.JSONDocument jsonDoc : jsonDocList) {
+                System.out.println("objectId is " + jsonDoc.getDocId());
+                json = new JSONObject(jsonDoc.getJsonDoc());
+                System.out.println(json.get("extras"));
+                ItemExtra itemExtra = parser.fromJson(ItemExtra.class, (String) json.get("extras"));
+                itemExtras.add(itemExtra);
+                System.out.println("stock:" + itemExtra.getStock() + "discount:" + itemExtra.getDiscount() + "\nURL 0:" + itemExtra.getURL(0) + "\n URL 1:" + itemExtra.getURL(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public ArrayList<ItemExtra> getItemExtras()
-    {
-            return itemExtras;
+    public ArrayList<ItemExtra> getItemExtras() {
+        return itemExtras;
     }
-    public ItemExtra getItemExtra(String itemID)
-    {
-        for(ItemExtra itemExtra:itemExtras)
-        {
-            if(itemExtra.getItemID().equals(itemID))
-            return itemExtra;
+
+    public ItemExtra getItemExtra(String itemID) {
+        for (ItemExtra itemExtra : itemExtras) {
+            if (itemExtra.getItemID().equals(itemID))
+                return itemExtra;
         }
         return new ItemExtra(itemID);
     }
 }
 
-class CustomComparator implements Comparator<Catalogue.Category.Item>
-{
+class CustomComparator implements Comparator<Catalogue.Category.Item> {
     @Override
     public int compare(Catalogue.Category.Item item, Catalogue.Category.Item t1) {
         return item.getName().compareTo(t1.getName());
     }
 }
 
-class customCatComparator implements Comparator<Catalogue.Category>
-{
+class customCatComparator implements Comparator<Catalogue.Category> {
     @Override
     public int compare(Catalogue.Category category, Catalogue.Category t1) {
         return category.getName().compareTo(t1.getName());

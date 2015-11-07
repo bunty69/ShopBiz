@@ -37,7 +37,7 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LoginManager.getInstance().logOut();
-                NavUtils.navigateUpFromSameTask(getParent());
+                NavUtils.navigateUpFromSameTask(UserProfile.this);
             }
         });
     }
