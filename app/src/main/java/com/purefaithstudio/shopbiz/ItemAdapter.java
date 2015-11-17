@@ -48,11 +48,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
        try {
            String uri = item.getUrl();
            holder.name.setText(item.getName());
-           holder.price.setText("Rs:" + item.getPrice().toString());
+           Log.d("harsim", "name:" + item.getName() + "price:" + item.getPrice().toString());
            holder.description.setText(item.getDescription());
            imageLoader.displayImage(uri, holder.imageView, options);
-           holder.discount.setText("Discount:" + itemExtra.getDiscount() + "%");
-           Log.d("harsim", "name:" + item.getName() + "price:" + item.getPrice().toString());//nice
+           holder.discount.setText("Discount:" + itemExtra.getDiscount() + "%");//nice
        }
        catch (Exception e)
        {

@@ -21,10 +21,13 @@ import android.widget.ImageSwitcher;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.shephertz.app42.paas.sdk.android.App42CallBack;
+import com.shephertz.app42.paas.sdk.android.shopping.Cart;
 
 public class Catalog extends ActionBarActivity {
     public static DrawerLayout mDrawerLayout;
@@ -165,8 +168,24 @@ public class Catalog extends ActionBarActivity {
         }
         if(id == R.id.badge)
         {
-            Intent intent = new Intent(Catalog.this,CartActivity.class);
-            startActivity(intent);
+            final Intent intent = new Intent(Catalog.this,CartActivity.class);
+            try {
+                MainActivity.apm.cartService.getItems(MainActivity.apm.cart.getCartId(), new App42CallBack() {
+                    public void onSuccess(Object response) {
+                        MainActivity.apm.cart = (Cart) response;
+                        System.out.println("cartId is :" + MainActivity.apm.cart.getCartId());
+                        startActivity(intent);
+                    }
+                    public void onException(Exception ex) {
+                        System.out.println("Exception Message" + ex.getMessage());
+                        Toast.makeText(getApplicationContext(),"error loading cart",Toast.LENGTH_LONG);
+                    }
+                });
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

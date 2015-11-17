@@ -72,6 +72,12 @@
                     android:text="Quantity : 0"
                     android:textColor="#00E676"
                     android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/item_cart_Total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total : 0"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
