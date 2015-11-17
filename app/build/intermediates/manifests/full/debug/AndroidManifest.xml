@@ -31,7 +31,7 @@
         <activity
             android:name="com.purefaithstudio.shopbiz.Catalog"
             android:label="@string/title_activity_catalog"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.purefaithstudio.shopbiz.ItemFullScreen"

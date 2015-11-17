@@ -66,6 +66,7 @@ public class ItemFullScreen extends AppCompatActivity {
          mAdapter = new ItemAdapter(this, item,itemExtra);
          recyclerView.setLayoutManager(linearLayoutManager);
          recyclerView.setAdapter(mAdapter);
+         MainActivity.apm.addToCart(item.getItemId(), 3, item.getPrice().intValueExact());
      } catch(Exception e)
          {
              e.printStackTrace();

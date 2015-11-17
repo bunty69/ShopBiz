@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageSwitcher;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
@@ -50,6 +53,7 @@ public class Catalog extends ActionBarActivity {
     };
     private String userName = "default";
     private byte[] bytes;
+    static TextView itemcount;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -127,11 +131,24 @@ public class Catalog extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.catalog, menu);
         MenuItem menuItem = menu.findItem(R.id.user_profile);
         Log.i("DebugHarjas", "Here2");
-        if (userName == null) {
+        final MenuItem count = menu.findItem(R.id.badge);
+        MenuItemCompat.setActionView(count, R.layout.cart_menu_item);
+        View view = MenuItemCompat.getActionView(count);
+        itemcount = (TextView) view.findViewById(R.id.item_count);
+        itemcount.setText("0");
+        final Menu m = menu;
+        view.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                m.performIdentifierAction(count.getItemId(), 0);
+            }
+        });
+     /*   if (userName == null) {
             Profile.fetchProfileForCurrentAccessToken();
             userName = Profile.getCurrentProfile().getName();
-        }
-        menuItem.setTitle(userName);
+        }*/
+      //  menuItem.setTitle(userName);
         return true;
     }
 
@@ -143,6 +160,12 @@ public class Catalog extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.user_profile) {
             Intent intent = new Intent(Catalog.this, UserProfile.class);
+            startActivity(intent);
+            return true;
+        }
+        if(id == R.id.badge)
+        {
+            Intent intent = new Intent(Catalog.this,CartActivity.class);
             startActivity(intent);
             return true;
         }

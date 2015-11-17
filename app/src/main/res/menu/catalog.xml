@@ -15,9 +15,11 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
     <item
-        android:id="@+id/cart"
-        android:icon="@drawable/cart_icon"
+        android:id="@+id/badge"
+        android:actionLayout="@layout/cart_menu_item"
         android:title=""
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:icon="@drawable/cart_icon">
+    </item>
 </menu>
 

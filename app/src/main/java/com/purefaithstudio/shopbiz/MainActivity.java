@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.shephertz.app42.paas.sdk.android.shopping.Catalogue;
+
 public class MainActivity extends AppCompatActivity {
     static app42Manager apm;
     Button next;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 apm = new app42Manager(context);
-                //apm.initItems();
+                apm.initItems();
             }
         }).start();
     }
