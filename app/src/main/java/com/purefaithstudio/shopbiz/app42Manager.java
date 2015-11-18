@@ -351,8 +351,7 @@ public class app42Manager {
             }
             public void onException(Exception ex)
             {
-                System.out.println("Excepts now" +
-                        "ion Message"+ex.getMessage());
+                System.out.println("Exception Message"+ex.getMessage());
             }
         });
     }
