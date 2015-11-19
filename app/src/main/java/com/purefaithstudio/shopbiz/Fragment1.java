@@ -31,10 +31,8 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.shephertz.app42.paas.sdk.android.shopping.Catalogue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -208,6 +206,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
         else
             Log.i("harsim", "password can't be empty");
     }
+
     @Override
     public void onAuthenticationSuccess() {
         Log.i("harsim", "authsuccess");
@@ -220,12 +219,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener, authent
             public void run() {
 
                 try {
-                    Log.d("harsim","cart test");
+                    Log.d("harsim", "cart test");
                     MainActivity.apm.createCart();
-                    Log.d("harsim","cart test done");
-                }
-                catch(Exception e)
-                {
+                    Log.d("harsim", "cart test done");
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

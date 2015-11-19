@@ -26,21 +26,21 @@ public class CartActivity extends AppCompatActivity {
     private Context context;
     private RecyclerView recyclerView;
     float dX,dY;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_cart);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_cart);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            recyclerView = (RecyclerView) findViewById(R.id.recycler_cart);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
                     return 2;
-            }
-        });
-        mAdapter = new CartAdapter(getApplicationContext(), MainActivity.apm.getCartItems());
+                }
+            });
+            mAdapter = new CartAdapter(getApplicationContext(), MainActivity.apm.getCartItems());
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mAdapter);
 

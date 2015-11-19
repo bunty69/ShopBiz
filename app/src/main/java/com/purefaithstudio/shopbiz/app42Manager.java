@@ -2,8 +2,6 @@ package com.purefaithstudio.shopbiz;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.badlogic.gdx.utils.Json;
@@ -24,11 +22,10 @@ import com.shephertz.app42.paas.sdk.android.user.UserService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 /**
  * Created by harsimran singh on 16-10-2015.
@@ -41,19 +38,20 @@ public class app42Manager {
     final String catalogueName = "jewellery";
     final String DBname = "CATALOGUE";
     final String collection = "items";
-    //catalog
-    private CatalogueService catalogueService;
-    private Catalogue catalogue;
+    public ArrayList<String> cartImages;
     ArrayList<Catalogue.Category.Item> itemList;
-    private ArrayList<Catalogue.Category> categoryList;
-    private Catalogue.Category categoryNameList;
     //authntication
     UserService userService;
     User user = null;
     //shopping cart
     CartService cartService;
-    Cart  cart;
+    Cart cart;
     Context context;
+    //catalog
+    private CatalogueService catalogueService;
+    private Catalogue catalogue;
+    private ArrayList<Catalogue.Category> categoryList;
+    private Catalogue.Category categoryNameList;
     //storage service itemextras
     private StorageService storageService;
     private JSONObject json;
@@ -62,19 +60,20 @@ public class app42Manager {
     //listeners
     private authenticationListener authenticationListener;
     private OnSignUpListener onSignUpListener;
+    private HashMap<String, String> cartMap;
 
     public app42Manager(Context cnt) {
         App42API.initialize(cnt, APIKEY, SECRET_KEY);
         catalogueService = App42API.buildCatalogueService();
         storageService = App42API.buildStorageService();
         userService = App42API.buildUserService();
-        cartService= App42API.buildCartService();
+        cartService = App42API.buildCartService();
         this.context = cnt;
         parser = new Json();
 
     }
-    public void initItems()
-    {
+
+    public void initItems() {
         Log.i("harjas", "Getitems calling");
         itemExtras = new ArrayList<ItemExtra>();
         loadItemExtra();
@@ -97,7 +96,12 @@ public class app42Manager {
                 user = (User) response;
                 System.out.println("userName is " + user.getUserName());
                 System.out.println("sessionId is " + user.getSessionId());
-                authenticationListener.onAuthenticationSuccess();
+                try {
+                    authenticationListener.onAuthenticationSuccess();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
             public void onException(Exception ex) {
@@ -195,7 +199,7 @@ public class app42Manager {
                 System.out.println("catalogue name is" + catalogue.getName());
                 categoryList = catalogue.getCategoryList();
                 System.out.println("category" + categoryList.get(0).getName());
-
+                cartMap = new HashMap<>();
                 for (int i = 0; i < categoryList.size(); i++) {
                     System.out.println("category name is : " + catalogue.getCategoryList().get(i).getName());
                     if (categoryList.get(i).getName().equals("categories")) {
@@ -204,13 +208,15 @@ public class app42Manager {
                     } else {
                         itemList = categoryList.get(i).getItemList();
                         for (int j = 0; j < itemList.size(); j++) {
-                            System.out.println("Item list Name:" + itemList.get(j).getName());
-                            System.out.println("Item List Id:" + itemList.get(j).getItemId());
-                            System.out.println("Item List  Description:" + itemList.get(j).getDescription());//bug here
-                            System.out.println("ItemList tiny Url:" + itemList.get(j).getTinyUrl());
-                            System.out.println("ItemList url:" + itemList.get(j).getUrl());
-                            System.out.println("Price:" + itemList.get(j).getPrice());
+                            //System.out.println("Item list Name:" + itemList.get(j).getName());
+                            //System.out.println("Item List Id:" + itemList.get(j).getItemId());
+                            cartMap.put(itemList.get(j).getItemId(), itemList.get(j).getUrl());
+                            //System.out.println("Item List  Description:" + itemList.get(j).getDescription());//bug here
+                            //System.out.println("ItemList tiny Url:" + itemList.get(j).getTinyUrl());
+                            //System.out.println("ItemList url:" + itemList.get(j).getUrl());
+                            //System.out.println("Price:" + itemList.get(j).getPrice());
                         }
+                        Log.i("DDD", cartMap.size() + "");
                     }
                 }
                 flag = true;
@@ -258,23 +264,21 @@ public class app42Manager {
     }
 
     public void loadItemExtra() {
-      try {
-          json = new JSONObject();
-          Storage storage = storageService.findAllDocuments(DBname, collection);
-          ArrayList<Storage.JSONDocument> jsonDocList = storage.getJsonDocList();
-          for (Storage.JSONDocument jsonDoc : jsonDocList) {
-              System.out.println("objectId is " + jsonDoc.getDocId());
-              json = new JSONObject(jsonDoc.getJsonDoc());
-              System.out.println(json.get("extras"));
-              ItemExtra itemExtra = parser.fromJson(ItemExtra.class, (String) json.get("extras"));
-              itemExtras.add(itemExtra);
-              System.out.println("stock:" + itemExtra.getStock() + "discount:" + itemExtra.getDiscount() + "\nURL 0:" + itemExtra.getURL(0) + "\n URL 1:" + itemExtra.getURL(1));
-          }
-      }
-      catch (Exception e)
-      {
-          e.printStackTrace();
-      }
+        try {
+            json = new JSONObject();
+            Storage storage = storageService.findAllDocuments(DBname, collection);
+            ArrayList<Storage.JSONDocument> jsonDocList = storage.getJsonDocList();
+            for (Storage.JSONDocument jsonDoc : jsonDocList) {
+                System.out.println("objectId is " + jsonDoc.getDocId());
+                json = new JSONObject(jsonDoc.getJsonDoc());
+                System.out.println(json.get("extras"));
+                ItemExtra itemExtra = parser.fromJson(ItemExtra.class, (String) json.get("extras"));
+                itemExtras.add(itemExtra);
+                System.out.println("stock:" + itemExtra.getStock() + "discount:" + itemExtra.getDiscount() + "\nURL 0:" + itemExtra.getURL(0) + "\n URL 1:" + itemExtra.getURL(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<ItemExtra> getItemExtras() {
@@ -289,15 +293,18 @@ public class app42Manager {
         return new ItemExtra(itemID);
     }
 
-    public void createCart()
-    {
+
+    public void createCart() {
         cartService.createCart(user.getUserName(), new App42CallBack() {
             public void onSuccess(Object response) {
                 cart = (Cart) response;
+                //cart.getItemList();
+                Log.i("DDD", "cart response");
                 System.out.println("userName is " + cart.getUserName());
                 System.out.println("cartId is " + cart.getCartId());
                 System.out.println("Cart Session is" + cart.getCartSession());
                 System.out.println("CreationTime is" + cart.getCreationTime());
+                //add hasmap initial
 
             }
 
@@ -307,8 +314,18 @@ public class app42Manager {
         });
     }
 
-    public void addToCart(String itemID,int itemQuantity,double price)
-    {
+    public ArrayList<String> cartListImage() {
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<Cart.Item> list;
+        list = cart.getItemList();//still nt works
+        for (int i = 0; i < list.size(); i++) {//this is zerolist.size()
+            Log.i("DDD", list.get(i).getItemId());
+            arrayList.add(cartMap.get(list.get(i).getItemId()));//main logic here..
+        }
+        return arrayList;
+    }
+
+    public void addToCart(String itemID, int itemQuantity, double price) {
         cartService.addItem(cart.getCartId(), itemID, itemQuantity, price, new App42CallBack() {
             public void onSuccess(Object response) {
                 cart = (Cart) response;
@@ -319,6 +336,7 @@ public class app42Manager {
                     System.out.println("Price " + itemList.get(i).getPrice());
                     System.out.println("Quantity " + itemList.get(i).getQuantity());
                     System.out.println("Total Amount " + itemList.get(i).getTotalAmount());
+                    //new item to hashmap
                 }
             }
 
@@ -328,36 +346,32 @@ public class app42Manager {
         });
     }
 
-    public ArrayList<Cart.Item> getCartItems()
-    {
+    public ArrayList<Cart.Item> getCartItems() {
+        Log.i("DDD", cart.getItemList().size() + "");
         return cart.getItemList();
     }
 
-    public void increaseQuantity(String itemID,int itemQuantity)
-    {
-        cartService.increaseQuantity(cart.getCartId() , itemID, itemQuantity,new App42CallBack() {
-            public void onSuccess(Object response)
-            {
-                cart  = (Cart )response;
+    public void increaseQuantity(String itemID, int itemQuantity) {
+        cartService.increaseQuantity(cart.getCartId(), itemID, itemQuantity, new App42CallBack() {
+            public void onSuccess(Object response) {
+                cart = (Cart) response;
                 System.out.println("cartId is :" + cart.getCartId());
-                ArrayList<Cart.Item> itemList =  cart.getItemList();
-                for(int i=0;i<itemList.size();i++)
-                {
-                    System.out.println("ItemId is"+itemList.get(i).getItemId());
-                    System.out.println("Price "+itemList.get(i).getPrice());
-                    System.out.println("Quantity"+itemList.get(i).getQuantity());
-                    System.out.println("Total Amount"+itemList.get(i).getTotalAmount());
+                ArrayList<Cart.Item> itemList = cart.getItemList();
+                for (int i = 0; i < itemList.size(); i++) {
+                    System.out.println("ItemId is" + itemList.get(i).getItemId());
+                    System.out.println("Price " + itemList.get(i).getPrice());
+                    System.out.println("Quantity" + itemList.get(i).getQuantity());
+                    System.out.println("Total Amount" + itemList.get(i).getTotalAmount());
                 }
             }
-            public void onException(Exception ex)
-            {
-                System.out.println("Exception Message"+ex.getMessage());
+
+            public void onException(Exception ex) {
+                System.out.println("Exception Message" + ex.getMessage());
             }
         });
     }
 
-    public void decreaseQuantity(String itemID,int itemQuantity)
-    {
+    public void decreaseQuantity(String itemID, int itemQuantity) {
         cartService.decreaseQuantity(cart.getCartId(), itemID, itemQuantity, new App42CallBack() {
             public void onSuccess(Object response) {
                 cart = (Cart) response;
@@ -377,8 +391,7 @@ public class app42Manager {
         });
     }
 
-    public void removeItem(String itemId)
-    {
+    public void removeItem(String itemId) {
         CartService cartService = App42API.buildCartService();
         cartService.removeItem(cart.getCartId(), itemId, new App42CallBack() {
             public void onSuccess(Object response) {
@@ -393,70 +406,63 @@ public class app42Manager {
         });
     }
 
-    public void emptyCart()
-    {
-        cartService.removeAllItems(cart.getCartId(),new App42CallBack() {
-            public void onSuccess(Object response)
-            {
+    public void emptyCart() {
+        cartService.removeAllItems(cart.getCartId(), new App42CallBack() {
+            public void onSuccess(Object response) {
                 cart = (Cart) response;
-                App42Response app42response = (App42Response)response;
-                System.out.println("response is " + app42response) ;
+                App42Response app42response = (App42Response) response;
+                System.out.println("response is " + app42response);
             }
-            public void onException(Exception ex)
-            {
-                System.out.println("Exception Message"+ex.getMessage());
+
+            public void onException(Exception ex) {
+                System.out.println("Exception Message" + ex.getMessage());
             }
         });
     }
 
-    public void checkOut()
-    {
-        cartService.checkOut(cart.getCartId(),new App42CallBack() {
-            public void onSuccess(Object response)
-            {
-                cart  = (Cart )response;
+    public void checkOut() {
+        cartService.checkOut(cart.getCartId(), new App42CallBack() {
+            public void onSuccess(Object response) {
+                cart = (Cart) response;
                 System.out.println("cartId is :" + cart.getCartId());
-                System.out.println("State is : "+cart.getState());
+                System.out.println("State is : " + cart.getState());
             }
-            public void onException(Exception ex)
-            {
-                System.out.println("Exception Message"+ex.getMessage());
+
+            public void onException(Exception ex) {
+                System.out.println("Exception Message" + ex.getMessage());
             }
         });
     }
 
-    public void updatePaymentStatus(String transactionId,PaymentStatus paymentStatus)
-    {
-        cartService.payment(cart.getCartId(), transactionId, paymentStatus,new App42CallBack() {
-            public void onSuccess(Object response)
-            {
-                cart  = (Cart )response;
+    public void updatePaymentStatus(String transactionId, PaymentStatus paymentStatus) {
+        cartService.payment(cart.getCartId(), transactionId, paymentStatus, new App42CallBack() {
+            public void onSuccess(Object response) {
+                cart = (Cart) response;
                 System.out.println("cartId is :" + cart.getCartId());
-                Cart.Payment payment=cart.getPayment();
-                System.out.println("Transaction Id"+payment.getTransactionId());
-                System.out.println("Total Amonut from payment node"+payment.getTotalAmount());
-                System.out.println("Status"+payment.getStatus());
-                System.out.println("Date"+payment.getDate());
+                Cart.Payment payment = cart.getPayment();
+                System.out.println("Transaction Id" + payment.getTransactionId());
+                System.out.println("Total Amonut from payment node" + payment.getTotalAmount());
+                System.out.println("Status" + payment.getStatus());
+                System.out.println("Date" + payment.getDate());
             }
-            public void onException(Exception ex)
-            {
-                System.out.println("Exception Message"+ex.getMessage());
+
+            public void onException(Exception ex) {
+                System.out.println("Exception Message" + ex.getMessage());
             }
         });
     }
 
 }
+
 //end of app42manager
-class CustomComparator implements Comparator<Catalogue.Category.Item>
-{
+class CustomComparator implements Comparator<Catalogue.Category.Item> {
     @Override
     public int compare(Catalogue.Category.Item item, Catalogue.Category.Item t1) {
         return item.getName().compareTo(t1.getName());
     }
 }
 
-class customCatComparator implements Comparator<Catalogue.Category>
-{
+class customCatComparator implements Comparator<Catalogue.Category> {
     @Override
     public int compare(Catalogue.Category category, Catalogue.Category t1) {
         return category.getName().compareTo(t1.getName());

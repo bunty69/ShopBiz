@@ -19,12 +19,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageSwitcher;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Profile;
-import com.facebook.login.LoginManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shephertz.app42.paas.sdk.android.App42CallBack;
 import com.shephertz.app42.paas.sdk.android.shopping.Cart;
@@ -33,6 +30,7 @@ public class Catalog extends ActionBarActivity {
     public static DrawerLayout mDrawerLayout;
     public static ListView mDrawerList;
     public static ImageLoader imageLoader;
+    static TextView itemcount;
     public Catalog contextglobal;
     Bitmap bmp;
     app42Manager apm;
@@ -56,7 +54,6 @@ public class Catalog extends ActionBarActivity {
     };
     private String userName = "default";
     private byte[] bytes;
-    static TextView itemcount;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -151,7 +148,7 @@ public class Catalog extends ActionBarActivity {
             Profile.fetchProfileForCurrentAccessToken();
             userName = Profile.getCurrentProfile().getName();
         }*/
-      //  menuItem.setTitle(userName);
+        //  menuItem.setTitle(userName);
         return true;
     }
 
@@ -166,24 +163,22 @@ public class Catalog extends ActionBarActivity {
             startActivity(intent);
             return true;
         }
-        if(id == R.id.badge)
-        {
-            final Intent intent = new Intent(Catalog.this,CartActivity.class);
+        if (id == R.id.badge) {
+            final Intent intent = new Intent(Catalog.this, CartActivity.class);
             try {
                 MainActivity.apm.cartService.getItems(MainActivity.apm.cart.getCartId(), new App42CallBack() {
                     public void onSuccess(Object response) {
                         MainActivity.apm.cart = (Cart) response;
-                        System.out.println("cartId is :" + MainActivity.apm.cart.getCartId());
+                        MainActivity.apm.cartImages = MainActivity.apm.cartListImage();
                         startActivity(intent);
                     }
+
                     public void onException(Exception ex) {
                         System.out.println("Exception Message" + ex.getMessage());
-                        Toast.makeText(getApplicationContext(),"error loading cart",Toast.LENGTH_LONG);
+                        Toast.makeText(getApplicationContext(), "error loading cart", Toast.LENGTH_LONG);
                     }
                 });
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return true;
