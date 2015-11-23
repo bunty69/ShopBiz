@@ -169,7 +169,8 @@ public class Catalog extends ActionBarActivity {
                 MainActivity.apm.cartService.getItems(MainActivity.apm.cart.getCartId(), new App42CallBack() {
                     public void onSuccess(Object response) {
                         MainActivity.apm.cart = (Cart) response;
-                        MainActivity.apm.cartImages = MainActivity.apm.cartListImage();
+                        MainActivity.apm.cartExtras = MainActivity.apm.cartListImage();
+
                         startActivity(intent);
                     }
 

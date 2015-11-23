@@ -38,7 +38,7 @@ public class app42Manager {
     final String catalogueName = "jewellery";
     final String DBname = "CATALOGUE";
     final String collection = "items";
-    public ArrayList<String> cartImages;
+    public ArrayList<String> cartExtras;
     ArrayList<Catalogue.Category.Item> itemList;
     //authntication
     UserService userService;
@@ -210,7 +210,9 @@ public class app42Manager {
                         for (int j = 0; j < itemList.size(); j++) {
                             //System.out.println("Item list Name:" + itemList.get(j).getName());
                             //System.out.println("Item List Id:" + itemList.get(j).getItemId());
-                            cartMap.put(itemList.get(j).getItemId(), itemList.get(j).getUrl());
+                            Catalogue.Category.Item item = itemList.get(j);
+                            cartMap.put(item.getItemId(), item.getUrl() + "," + item.getName());
+                            Log.i("listD",""+item.getItemId()+"<>"+cartMap.get(item.getItemId()));
                             //System.out.println("Item List  Description:" + itemList.get(j).getDescription());//bug here
                             //System.out.println("ItemList tiny Url:" + itemList.get(j).getTinyUrl());
                             //System.out.println("ItemList url:" + itemList.get(j).getUrl());
@@ -319,7 +321,7 @@ public class app42Manager {
         ArrayList<Cart.Item> list;
         list = cart.getItemList();//still nt works
         for (int i = 0; i < list.size(); i++) {//this is zerolist.size()
-            Log.i("DDD", list.get(i).getItemId());
+            Log.i("list", cartMap.get("foot0001"));
             arrayList.add(cartMap.get(list.get(i).getItemId()));//main logic here..
         }
         return arrayList;

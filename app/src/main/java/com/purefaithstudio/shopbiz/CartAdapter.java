@@ -29,7 +29,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public CartAdapter(Context applicationContext, ArrayList<Cart.Item> items) {
         super();
         cartItems = items;
-        cartImages = MainActivity.apm.cartImages;
+        cartImages = MainActivity.apm.cartExtras;
         imageLoader = ImageLoader.getInstance();//get instance
         imageLoader.init(ImageLoaderConfiguration.createDefault(applicationContext));//loads that instance with init congig_default
         options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_launcher).cacheInMemory(true).cacheOnDisk(true).build();
@@ -54,14 +54,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String uri = String.valueOf(MainActivity.apm.cartImages.get(position));
-        holder.name.setText(cartItems.get(position).getName());
-        Log.d("harsim", cartItems.get(position).toString() + "" + cartItems.get(position).getTotalAmount());
-        Log.d("harsim", String.valueOf(cartItems.get(position).getPrice().intValueExact()));
-        holder.price.setText(String.valueOf(cartItems.get(position).getPrice().intValueExact()));
-        holder.Quantity.setText(String.valueOf(cartItems.get(position).getQuantity()));
-        holder.total_on_item.setText(String.valueOf(cartItems.get(position).getTotalAmount()));
-        imageLoader.displayImage(uri, holder.imageView, options);
+            Log.i("listD",""+MainActivity.apm.cartExtras.get(position));
+        String uri="";
+        if(MainActivity.apm.cartExtras.get(position)!=null) {
+            String cartExtrasString[] = MainActivity.apm.cartExtras.get(position).split(",");//bug here second one is null
+            uri = String.valueOf(cartExtrasString[0]);
+            holder.name.setText(cartExtrasString[1]);
+        }
+            Log.d("harsim", cartItems.get(position).toString() + "" + cartItems.get(position).getTotalAmount());
+            Log.d("harsim", String.valueOf(cartItems.get(position).getPrice().intValueExact()));
+            holder.price.setText(String.valueOf(cartItems.get(position).getPrice().intValueExact()));
+            holder.Quantity.setText(String.valueOf(cartItems.get(position).getQuantity()));
+            holder.total_on_item.setText(String.valueOf(cartItems.get(position).getTotalAmount()));
+            imageLoader.displayImage(uri, holder.imageView, options);
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
